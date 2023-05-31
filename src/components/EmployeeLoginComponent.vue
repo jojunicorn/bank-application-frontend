@@ -1,3 +1,18 @@
+<template>
+    <div class="login-body">
+      <div class="login-main">  	  
+          <div class="signup">
+            <label class="login-label" aria-hidden="true">Employee Login</label>
+            <form>
+              <input class="login-input" type="email" name="email" placeholder="Email" required>
+              <input class="login-input" type="password" name="pswd" placeholder="Password" required>
+              <button class="login-button">Login</button>
+            </form>
+          </div>
+        </div>
+    </div>
+</template>
+<style scoped>
 .login-body{
 	margin: 0;
 	padding: 0;
@@ -16,32 +31,6 @@
 	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
 	border-radius: 10px;
 	box-shadow: 5px 20px 50px #000;
-}
-#chk{
-	display: none;
-}
-.signup{
-	position: relative;
-	margin: 3%;
-	width:90%;
-	height: 100%;
-}
-.dark{
-	color: #573b8a;
-
-}
-.login-label{
-	color: #fff;
-	font-size: 2.3em;
-	justify-content: center;
-	display: flex;
-	margin: 30px;
-	font-weight: bold;
-	cursor: pointer;
-	transition: .5s ease-in-out;
-}
-.register{
-	margin-top: -1%;
 }
 .login-input{
 	width: 80%;
@@ -75,66 +64,20 @@
 .login-button:hover{
 	background: #6d44b8;
 }
-.login{
-	padding: 15px;
-	height: 600px;
-	background: #eee;
-	border-radius: 60% / 10%;
-	transform: translateY(-150px);
-	transition: .8s ease-in-out;
-}
-.login .login-label{
-	color: #573b8a;
-	transform: scale(.6);
-}
-
-
-#chk:checked ~ .login{
-	transform: translateY(-670px);
-}
-#chk:checked ~ .login .login-label{
-	transform: scale(1);	
-}
-#chk:checked ~ .signup .login-label{
-	transform: scale(.6);
-}
-
-
-/* Popup style*/
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.5);
-}
-  
-.modal-content {
-	background-color: #fff;
-	margin: 10% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-}
-  
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
+.login-label{
+	color: #fff;
+	font-size: 2.3em;
+	justify-content: center;
+	display: flex;
+	margin-top: 30%;
 	font-weight: bold;
 	cursor: pointer;
+	transition: .5s ease-in-out;
 }
-  
-.close:hover,
-.close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
+.signup{
+	position: relative;
+	margin: 3%;
+	width:90%;
+	height: 100%;
 }
-.go-to-login{
-	display: none;
-}
+</style>

@@ -3,7 +3,7 @@
 
         <h1 class="main-heading">Bank</h1>
         <a href="/userLogin"><button type="button" class="btn btn-secondary btn-lg login-button">Customer Login</button></a>
-        <a href="#  "><button type="button" class="btn btn-secondary btn-lg login-button">Employee Login</button></a>
+        <a href="/employeeLogin"><button type="button" class="btn btn-secondary btn-lg login-button">Employee Login</button></a>
     </div>
 </template>
 

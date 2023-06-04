@@ -39,6 +39,36 @@ const router = createRouter({
       path: '/user/:id/profile',
       name: 'userProfile',
       component: () => import('../views/UserProfileView.vue')
+    },
+    {
+      path: '/accounts',
+      name: 'getAccounts',
+      component: () => import('../views/accounts/GetAccountsView.vue')
+    },
+    {
+      path: '/accounts/:iban',
+      name: 'getAccount',
+      component: () => import('../views/accounts/GetAccountsView.vue')
+    },
+    {
+      path: '/accounts/getIbanByCustomerName',
+      name: 'searchAccounts',
+      component: () => import('../views/accounts/FindAccountsView.vue'),
+      props: (route) => {
+        {
+          firstName: route.query.firstName
+        }
+      }
+    },
+    {
+      path: '/accountsCreate',
+      name: 'createAccount',
+      component: () => import('../views/accounts/PostAccountView.vue')
+    },
+    {
+      path: '/accounts/accountStatus/:iban',
+      name: 'updateAccount',
+      component: () => import('../views/accounts/PutAccountView.vue')
     }
   ]
 })

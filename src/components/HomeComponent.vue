@@ -9,20 +9,13 @@
 
 <style scoped>
     .main-heading{
-        font-size: 20em;
+        margin: 5%;
+        font-size: 10em;
         color: rgb(199, 237, 251)
-    }
-    .body{
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        background-image: url(../assets/background.jpg);
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: 100% 100%;
     }
     .login-button{
         margin: 5%;
+        margin-top: 10%;
         height: 10rem;
         width: 40%;
         background-color: rgba(15, 15, 34, 0.4);

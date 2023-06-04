@@ -76,15 +76,13 @@
 
 
   <div id="popup" class="modal">
-  <div class="modal-content">
-    <span class="close" @click="closePopup">&times;</span>
-    <h2 id="popupHeading">Popup</h2>
-    <p id="popupText"></p>
-    <button class="form-control go-to-login" id="goLogin" @click="reloadPage">Go to Login</button>
+    <div class="modal-content">
+      <span class="close" @click="closePopup">&times;</span>
+      <h2 id="popupHeading">Popup</h2>
+      <p id="popupText"></p>
+      <button class="form-control go-to-login" id="goLogin" @click="reloadPage">Go to Login</button>
+    </div>
   </div>
-
-
-</div>
 
 </template>
 

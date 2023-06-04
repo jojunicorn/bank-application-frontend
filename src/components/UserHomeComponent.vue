@@ -17,11 +17,9 @@
     created() {
       // needs to be specified in login
       const currentUser = this.getUser();
-      console.log(currentUser);
     },
     mounted() {
       const userId = this.$route.params.id;
-      console.log(userId); // Output the value of the 'id' parameter
     },
     data() {
       return {
@@ -31,12 +29,14 @@
           lastName: '',
           email: '',
           password: '',
-          birthDate: '',
+          bsn: '',
+          phoneNumber: '',
+          birthdate: '',
           streetName: '',
           houseNumber: '',
           zipCode: '',
           city: '',
-          country: '',
+          country: '', 
           role: ''
         }
       };
@@ -53,7 +53,6 @@
           this.userResponse = data; // Assign the response data to userResponse
   
           // Do further processing or handle the response as needed
-          console.log(response);
         } catch (error) {
           console.log(error);
         }

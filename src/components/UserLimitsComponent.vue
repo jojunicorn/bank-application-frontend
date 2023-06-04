@@ -1,5 +1,22 @@
-<template>
-    <h1> {{ transactionLimitResponse.transactionLimit }} </h1>
+<template> 
+<div class="container limits">
+    <div class="row">
+    <div class="card limit" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">General Transaction Limit</h5>
+            <h6 class="card-subtitle mb-2 text-muted">How much you can spend in one transaction</h6>
+            <p class="card-text limit-amount">{{ transactionLimitResponse.transactionLimit.toLocaleString('en-US') }} €</p>
+        </div>
+    </div>
+    <div class="card limit" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Daily Limit</h5>
+            <h6 class="card-subtitle mb-2 text-muted">How much you can still spend in today until 12pm</h6>
+            <p class="card-text limit-amount">{{ dailyLimitResponse.dailyLimit.toLocaleString('en-US') }} €</p>
+        </div>
+    </div>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -7,8 +24,9 @@
   
   export default {
    
-    created(){
+    mounted(){
         this.getTransactionLimit();
+        this.getDailyLimit();
     },
     data() {
         return{
@@ -27,7 +45,9 @@
     methods:{
         async getTransactionLimit(){
             try{
-                const response = await axios.get('http://localhost:8080/users/transactionLimit/1', this.transactionLimitResponse);
+                const userId = this.$route.params.id;
+
+                const response = await axios.get(`http://localhost:8080/users/transactionLimit/${userId}`, this.transactionLimitResponse);
                 const status = JSON.parse(response.status);
                 const data = response.data; // Response data
 
@@ -42,9 +62,15 @@
         },
         async getDailyLimit(){
             try{
-                const response = await axios.get('http://localhost:8080/users/dailyLimit/{id}', this.dailyLimitResponse);
-                const status = JSON.parse(response.status);
+                const userId = this.$route.params.id;
 
+                const response = await axios.get(`http://localhost:8080/users/dailyLimit/${userId}`, this.dailyLimitResponse);
+                const status = JSON.parse(response.status);
+                const data = response.data; // Response data
+
+                console.log(data);
+
+                this.dailyLimitResponse.dailyLimit = data.dailyLimit;
                 //show errormessage if no response
                 if (status == 200) {
 
@@ -60,5 +86,19 @@
 <style scoped>
   .main{
     margin: 2%
+  }
+  .limit{
+    margin: 5%;
+    text-align-last: center;
+
+  }
+  .limits{
+    margin-left: 23%;
+    margin-right: 23%;
+  }
+  .limit-amount{
+    color: rgb(103, 14, 113);
+    font-weight: bold;
+    font-size: 3em;
   }
 </style>

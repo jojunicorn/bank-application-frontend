@@ -11,3 +11,6 @@ import GetAccountsComponent from '../../components/accounts/GetAccountsComponent
 
 <!-- http://localhost:5173/accounts -->
 <!-- http://localhost:5173/accounts/NL29INHO0599835753 -->
+
+<script>
+</script>

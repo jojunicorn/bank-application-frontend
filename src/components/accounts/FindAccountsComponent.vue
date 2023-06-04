@@ -18,7 +18,7 @@
             <tbody>
                 <tr v-for="account in accounts" :key="account.id">
                     <td>{{ account.iban }}</td>
-                    <td>{{ account.accountHolder.firstName }}</td>
+                    <td>{{ account.user }}</td>
                 </tr>
             </tbody>
         </table>
@@ -31,7 +31,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            searchFirstName: '',
+            firstName: '',
             accounts: [],
         };
     },
@@ -40,7 +40,7 @@ export default {
             const firstName = this.searchFirstName;
 
             axios
-                .get(`/accounts/getIbanByCustomerName?firstName=${firstName}`)
+                .get(`http://localhost:8080/accounts/getIbanByCustomerName?firstName=${firstName}`)
                 .then(response => {
                     this.accounts = response.data;
                 })

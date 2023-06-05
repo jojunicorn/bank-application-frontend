@@ -7,11 +7,17 @@
                 <input type="text" class="form-control col-md-6" id="userId" v-model="userId" required>
             </div>
             <div class="form-group">
-                <label for="accountType">Account Type:</label>
-                <select id="accountType" class="form-control col-md-6" v-model="accountType" required>
-                    <option value="SAVINGS">Savings</option>
-                    <option value="CURRENT">Current</option>
-                </select>
+                <label for="accountType">Select account type: </label>
+                <div class="form-check">
+                    <input type="radio" id="current" class="form-check-input" v-model="accountType" value="CURRENT"
+                        required>
+                    <label for="current" class="form-check-label">Current</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="savings" class="form-check-input" v-model="accountType" value="SAVINGS"
+                        required>
+                    <label for="savings" class="form-check-label">Savings</label>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Create bank account</button>
         </form>

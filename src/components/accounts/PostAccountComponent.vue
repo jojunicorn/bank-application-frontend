@@ -4,7 +4,10 @@
         <form @submit.prevent="createAccount">
             <div class="form-group">
                 <label for="userId">Select a user: </label>
-                <input type="text" class="form-control col-md-6" id="userId" v-model="userId" required>
+                <select class="form-control col-md-6" id="userId" v-model="userId" required>
+                    <option v-for="user in userList" :key="user.id" :value="user.id">{{ user.firstName }}
+                    </option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="accountType">Select account type: </label>
@@ -22,22 +25,37 @@
             <button type="submit" class="btn btn-primary">Create bank account</button>
         </form>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-        <p v-if="succesMessage" class="success-message">{{ succesMessage }}</p>
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
     </div>
 </template>
-
+  
 <script>
 import axios from 'axios';
 export default {
+    created() {
+        this.fetchUserList();
+    },
     data() {
         return {
             userId: '',
             accountType: 'SAVINGS',
             errorMessage: '',
             successMessage: '',
+            userList: [],
         };
     },
     methods: {
+        fetchUserList() {
+            axios.get('http://localhost:8080/users')
+                .then(response => {
+                    console.log(response.data);
+                    this.userList = response.data;
+                })
+                .catch(error => {
+                    this.errorMessage = 'Failed to fetch user list.';
+                    this.successMessage = '';
+                });
+        },
         createAccount() {
             const accountRequest = {
                 accountHolder: {
@@ -48,14 +66,14 @@ export default {
 
             axios.post('http://localhost:8080/accounts', accountRequest)
                 .then(response => {
-                    this.successMessage = response.data,
-                        this.errorMessage = '';
+                    this.successMessage = response.data;
+                    this.errorMessage = '';
                 })
                 .catch(error => {
                     if (error.response && error.response.data) {
                         this.errorMessage = error.response.data;
                     } else {
-                        this.errorMessage = 'An unexpected error occured.';
+                        this.errorMessage = 'An unexpected error occurred.';
                     }
                     this.successMessage = '';
                 });
@@ -63,7 +81,7 @@ export default {
     },
 };
 </script>
-
+  
 <style scoped>
 .error-message {
     color: red;
@@ -73,3 +91,4 @@ export default {
     color: green;
 }
 </style>
+  

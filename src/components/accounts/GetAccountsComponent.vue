@@ -3,10 +3,10 @@
         <h2>Get one or more bank accounts</h2>
         <div class="form-group">
             <label for="ibanSearch">Search account by IBAN: </label>
-            <input type="text" id="ibanSeach" class="form-control col-md-6" v-model="searchIban" placeholder="Enter IBAN" />
-            <button @click="searchAccounts" class="btn btn-primary mt-3">Search</button>
+            <input type="text" id="ibanSearch" class="form-control col-md-6" v-model="searchIban"
+                placeholder="Enter IBAN" />
+            <button @click="fetchAccounts" class="btn btn-primary mt-3">Search</button>
         </div>
-
         <h2>Results</h2>
         <table class="table table-responsive my-3">
             <thead>
@@ -19,8 +19,8 @@
                     <th>Account Type</th>
                     <th>Account Status</th>
                     <th>Account Holder ID</th>
-                    <th>Account Holder Name</th>
-                    <th>Account Holder Email</th>
+                    <!-- <th>Account Holder Name</th>
+                    <th>Account Holder Email</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@
                     <td>{{ account.createdAt }}</td>
                     <td>{{ account.accountType }}</td>
                     <td>{{ account.accountStatus }}</td>
-                    <td>{{ account.accountHolder.id }}</td>
+                    <td>{{ account.user }}</td>
                 </tr>
             </tbody>
         </table>
@@ -42,21 +42,32 @@
 <script>
 import axios from 'axios';
 export default {
+    mounted() {
+        this.fetchAccounts();
+    },
     data() {
         return {
-            accounts: [],
+            accounts: {
+                id: '',
+                iban: '',
+                balance: '',
+                absoluteLimit: '',
+                createdAt: '',
+                accountType: '',
+                accountStatus: '',
+                user: {
+                    id: ''
+                }
+            },
         };
     },
-    // mounted() {
-    //     this.fetchAccounts();
-    // },
     methods: {
         fetchAccounts() {
             const iban = this.searchIban;
 
             if (iban) {
                 axios
-                    .get(`/accounts/${iban}`)
+                    .get(`http://localhost:8080/accounts/${iban}`)
                     .then(response => {
                         const account = response.data;
                         this.accounts = [account];
@@ -66,7 +77,7 @@ export default {
                     });
             } else {
                 axios
-                    .get(`/accounts`)
+                    .get(`http://localhost:8080/accounts`)
                     .then(response => {
                         this.accounts = response.data;
                     })

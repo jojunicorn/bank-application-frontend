@@ -36,9 +36,9 @@ export default {
             };
 
             axios
-                .put(`accounts/accountStatus/${iban}`, requestData)
+                .put(`http://localhost:8080/accounts/accountStatus/${iban}`, requestData)
                 .then(response => {
-                    console.log(response.data);
+                    console.log("Status updated", response.data);
                 })
                 .catch(error => {
                     console.error(`Failed to update account status: `, error);

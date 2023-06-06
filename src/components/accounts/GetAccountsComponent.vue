@@ -27,7 +27,7 @@
                 <tr v-for="account in accounts" :key="account.id">
                     <td>{{ account.id }}</td>
                     <td>{{ account.iban }}</td>
-                    <td>{{ account.balance }}</td>
+                    <td>&euro; {{ account.balance }}</td>
                     <td>{{ account.absoluteLimit }}</td>
                     <td>{{ account.createdAt }}</td>
                     <td>{{ account.accountType }}</td>

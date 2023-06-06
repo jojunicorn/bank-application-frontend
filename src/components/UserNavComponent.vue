@@ -22,6 +22,17 @@
                 <li><a class="dropdown-item" href="#">Logout</a></li>
             </ul>
             </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+                Accounts(for employees)
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" :href="'/accounts/getIbanByCustomerName/'">Find accounts based on customer name</a></li>
+                <li><a class="dropdown-item" :href="'/accounts/'">Get all accounts</a></li>
+                <li><a class="dropdown-item" :href="'/accountsCreate/'">Create accounts</a></li>
+                <li><a class="dropdown-item" :href="'/accounts/accountStatus/iban'">Update accounts</a></li>
+            </ul>
+            </li>
         </ul>
         </div>
     </div>

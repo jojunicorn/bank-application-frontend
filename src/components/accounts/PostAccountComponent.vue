@@ -3,7 +3,7 @@
         <h2>Create a new bank account</h2>
         <form @submit.prevent="createAccount">
             <div class="form-group">
-                <label for="userId">Select user without account:</label>
+                <label for="userId">Select a user: </label>
                 <input type="text" class="form-control col-md-6" id="userId" v-model="userId" required>
             </div>
             <div class="form-group">
@@ -40,7 +40,7 @@ export default {
                 accountType: this.accountType,
             };
 
-            axios.post('/accounts', accountRequest)
+            axios.post('http://localhost:8080/accounts', accountRequest)
                 .then(response => {
                     this.successMessage = response.data,
                         this.errorMessage = '';

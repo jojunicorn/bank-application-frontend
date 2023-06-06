@@ -30,7 +30,7 @@
                 <li><a class="dropdown-item" :href="'/accounts/getIbanByCustomerName/'">Find accounts based on customer name</a></li>
                 <li><a class="dropdown-item" :href="'/accounts/'">Get all accounts</a></li>
                 <li><a class="dropdown-item" :href="'/accountsCreate/'">Create accounts</a></li>
-                <li><a class="dropdown-item" :href="'/accounts/accountStatus/iban'">Update accounts</a></li>
+                <li><a class="dropdown-item" :href="'/accounts/accountStatus/'">Update accounts</a></li>
             </ul>
             </li>
         </ul>

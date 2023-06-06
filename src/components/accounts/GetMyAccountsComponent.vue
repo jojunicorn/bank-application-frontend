@@ -1,17 +1,28 @@
 <template>
     <div class="ml-3 mt-3">
-        <h2>My bank accounts</h2>
+        <h2 class="text-center">My bank accounts</h2>
 
         <ul v-if="loading">
             <li>Loading...</li>
         </ul>
-        <ul v-else-if="accounts.length >= 0">
+        <ul v-else-if="accounts.length >= 0" class="inline-list">
             <li v-for="account in accounts" :key="account.id">
-                Type: {{ account.accountType }} | Account IBAN: {{ account.iban }} | Balance: &euro; {{ account.balance }} | Absolute limit: &euro; {{ account.absoluteLimit
-                }} |
-                Created At: {{ account.createdAt }} | Status: {{ account.accountStatus }}
-                |
-                Total Balance: &euro; {{ account.totalBalance }}
+                <div class="container limits">
+                    <div class="row">
+                        <div class="card limit" style="width: 18rem;">
+                            <div class="card-body">
+                                <h4 class="card-title text-center"> Account IBAN: <a
+                                        :href="`/accounts/myAccount/${account.iban}`">{{ account.iban }}</a></h4>
+                                <h5 class="card-title"> Account Type: {{ account.accountType }}</h5>
+                                <h5 class="card-subtitle"> Account Balance: &euro; {{ account.balance }}</h5>
+                                <p class="card-text"> Absolute limit: &euro; {{ account.absoluteLimit }}</p>
+                                <p class="card-text"> Created at: {{ account.createdAt }}</p>
+                                <p class="card-text"> Account status: {{ account.accountStatus }}</p>
+                                <p class="card-text"> Total Balance: &euro; {{ account.totalBalance }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
         <p v-else>No accounts found.</p>
@@ -34,7 +45,7 @@ export default {
     },
     methods: {
         async fetchAccounts(userId) {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDYwNTI3LCJleHAiOjE2ODYwNjQxMjd9.dVg5KDEWn3usn3HAM1poMOTg_9yg3fvIxpjR9Nw4xZc92at6JHWlABwoYiDtTeB3AxXqYekkHor60mLd3REC4U5MMWKXHH4Oz3CY81pyCpWZ_aengKO6CSAzMY8lzhyyK7B0eWDlqLMDu_qp1qe45dW-cjax9tWEyaq1QGRzYRSEyQyVV86GFv3eed-hd7zEoCMejPM0oD5XKC8wEHWaxEGOJpfTcGue5bloxHMaUtla87XQuLVD3-gSfsHSOwsBMEiL5wMUZ_gXx1k6mufWUxGjXdGVpTgk6daQfTBBHwEXjc0RU8lPyyb1u6zw6wO127h6z3yJAl-ryetXnxj6UA"}`, }, };
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
 
             await axios
                 .get(`https://localhost:8080/accounts/myAccounts/${userId}`, config)
@@ -51,4 +62,33 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.main {
+    margin: 2%
+}
+
+.limit {
+    margin: 5%;
+    text-align-last: center;
+
+}
+
+/* .limits {
+    margin-left: 23%;
+    margin-right: 23%;
+} */
+
+.inline-list {
+    display: inline-flex;
+    list-style: none;
+    flex-flow: row;
+    padding-left: 350px;
+}
+
+.inline-list li {
+    flex: 1 0 50%;
+    /* Adjust this value to control the width of each li element */
+    padding-left: 100px;
+    /* Optional: Add padding to create some space between each li element */
+}
+</style>

@@ -1,11 +1,6 @@
 <template>
   <div class="main">
     <h1>Welcome {{ userResponse.firstName }} {{ userResponse.lastName }}</h1><br><br><br><br>
-
-    <p>Here I would display the accounts where if you click on them you have more detail and the options to perform transactions<br>
-      If user has no accounts yet message that no accounts have been created yet. <br>
-      Also display the rest daily limit and the general transactionlimit
-    </p>
   </div>
 </template>
   

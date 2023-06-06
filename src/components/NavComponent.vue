@@ -11,8 +11,16 @@
             <a class="nav-link active" aria-current="page" :href="'/user/' + $route.params.id">Home</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" :href="'/user/' + $route.params.id + '/atm'">ATM</a> <!-- hardcoded for now-->
+            <a class="nav-link" :href="'/user/' + $route.params.id + '/atm'">ATM</a>
             </li>
+        <!--Employee Functions - it needs to be checked for role of logged in user to display these-->
+            <li class="nav-item">
+            <a class="nav-link" href="/users">User Management</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/transactions">Transaction Management</a>
+            </li>
+
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
                 User
@@ -26,7 +34,10 @@
         </div>
     </div>
     </nav>
+
+    <!-- We still need to indicate on which part of the navbar we are!!! -->
 </template>
+
 
 <style scoped>
   .blue{

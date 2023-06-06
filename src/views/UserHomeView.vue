@@ -1,5 +1,5 @@
 <script setup>
-  import UserNavComponent from '../components/UserNavComponent.vue';
+  import NavComponent from '../components/NavComponent.vue';
   import UserHomeComponent from '../components/UserHomeComponent.vue';
   import UserLimitsComponent from '../components/UserLimitsComponent.vue';
   import GetMyAccountsComponent from '../components/accounts/GetMyAccountsComponent.vue';
@@ -7,7 +7,7 @@
 
 <template>
   <main>
-    <UserNavComponent />
+    <NavComponent />
     <UserHomeComponent />
     <GetMyAccountsComponent />
     <UserLimitsComponent />

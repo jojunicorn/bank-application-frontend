@@ -1,11 +1,11 @@
 <script setup>
-  import UserNavComponent from '../components/UserNavComponent.vue';
+  import NavComponent from '../components/NavComponent.vue';
   import UserProfileComponent from '../components/UserProfileComponent.vue';
 </script>
 
 <template>
   <main>
-    <UserNavComponent />
+    <NavComponent />
     <UserProfileComponent />
   </main>
 </template>

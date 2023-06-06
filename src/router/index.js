@@ -64,6 +64,11 @@ const router = createRouter({
       path: '/accounts/accountStatus/:iban',
       name: 'updateAccount',
       component: () => import('../views/accounts/PutAccountView.vue')
+    },
+    {
+      path: '/users',
+      name: 'getAllUsers',
+      component: () => import('../views/GetUsersView.vue')
     }
   ]
 })

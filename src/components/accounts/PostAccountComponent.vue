@@ -22,6 +22,19 @@
                     <label for="savings" class="form-check-label">Savings</label>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="accountStatus">Select account status: </label>
+                <div class="form-check">
+                    <input type="radio" id="active" class="form-check-input" v-model="accountStatus" value="ACTIVE"
+                        required>
+                    <label for="active" class="form-check-label">Active</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="inactive" class="form-check-input" v-model="accountStatus" value="INACTIVE"
+                        required>
+                    <label for="inactive" class="form-check-label">Inactive</label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Create bank account</button>
         </form>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -38,15 +51,16 @@ export default {
     data() {
         return {
             userId: '',
-            accountType: 'SAVINGS',
+            accountType: 'CURRENT',
+            accountStatus: 'ACTIVE',
             errorMessage: '',
             successMessage: '',
             userList: [],
         };
     },
     methods: {
-        fetchUserList() {
-            axios.get('http://localhost:8080/users')
+        async fetchUserList() {
+            await axios.get('http://localhost:8080/users')
                 .then(response => {
                     console.log(response.data);
                     this.userList = response.data;
@@ -56,15 +70,16 @@ export default {
                     this.successMessage = '';
                 });
         },
-        createAccount() {
+        async createAccount() {
             const accountRequest = {
                 accountHolder: {
                     id: this.userId,
                 },
                 accountType: this.accountType,
+                accountStatus: this.accountStatus,
             };
 
-            axios.post('http://localhost:8080/accounts', accountRequest)
+            await axios.post('http://localhost:8080/accounts', accountRequest)
                 .then(response => {
                     this.successMessage = response.data;
                     this.errorMessage = '';

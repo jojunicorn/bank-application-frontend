@@ -7,11 +7,11 @@
         </ul>
         <ul v-else-if="accounts.length >= 0">
             <li v-for="account in accounts" :key="account.id">
-                Account IBAN: {{ account.iban }} | Balance: &euro;  {{ account.balance }} | Absolute limit: {{ account.absoluteLimit
+                Type: {{ account.accountType }} | Account IBAN: {{ account.iban }} | Balance: &euro; {{ account.balance }} | Absolute limit: &euro; {{ account.absoluteLimit
                 }} |
-                Created At: {{ account.createdAt }} | Type: {{ account.accountType }} | Status: {{ account.accountStatus }}
+                Created At: {{ account.createdAt }} | Status: {{ account.accountStatus }}
                 |
-                Total Balance: {{ account.totalBalance }}
+                Total Balance: &euro; {{ account.totalBalance }}
             </li>
         </ul>
         <p v-else>No accounts found.</p>
@@ -33,8 +33,8 @@ export default {
         };
     },
     methods: {
-        fetchAccounts(userId) {
-            axios
+        async fetchAccounts(userId) {
+            await axios
                 .get(`http://localhost:8080/accounts/myAccounts/${userId}`)
                 .then(response => {
                     this.accounts = response.data;

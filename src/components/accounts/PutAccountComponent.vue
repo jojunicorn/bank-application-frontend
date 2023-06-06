@@ -27,7 +27,7 @@ export default {
         };
     },
     methods: {
-        updateAccountStatus() {
+        async updateAccountStatus() {
             const iban = this.iban;
             const accountStatus = this.accountStatus;
 
@@ -35,7 +35,7 @@ export default {
                 accountStatus: accountStatus,
             };
 
-            axios
+            await axios
                 .put(`http://localhost:8080/accounts/accountStatus/${iban}`, requestData)
                 .then(response => {
                     console.log("Status updated", response.data);

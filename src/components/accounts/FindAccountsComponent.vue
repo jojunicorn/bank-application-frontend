@@ -3,7 +3,8 @@
         <h2>Find a IBAN based on name</h2>
         <div class="form-group">
             <label for="nameSearch">Search IBAN by customer name: </label>
-            <input type="text" id="nameSearch" class="form-control col-md-6" v-model="searchFirstName" placeholder="Enter customer's first name" />
+            <input type="text" id="nameSearch" class="form-control col-md-6" v-model="searchFirstName"
+                placeholder="Enter customer's first name" />
             <button @click="searchAccounts" class="btn btn-primary mt-3">Search</button>
         </div>
 
@@ -13,12 +14,14 @@
                 <tr>
                     <th>IBAN</th>
                     <th>Customer's name</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="account in accounts" :key="account.id">
                     <td>{{ account.iban }}</td>
                     <td>{{ account.user }}</td>
+                    <td><button>Create Transaction</button></td>
                 </tr>
             </tbody>
         </table>
@@ -36,10 +39,10 @@ export default {
         };
     },
     methods: {
-        searchAccounts() {
+        async searchAccounts() {
             const firstName = this.searchFirstName;
 
-            axios
+            await axios
                 .get(`http://localhost:8080/accounts/getIbanByCustomerName?firstName=${firstName}`)
                 .then(response => {
                     this.accounts = response.data;

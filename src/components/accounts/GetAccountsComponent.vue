@@ -7,7 +7,7 @@
                 placeholder="Enter IBAN" />
             <button @click="fetchAccounts" class="btn btn-primary mt-3">Search</button>
         </div>
-        <h2>Results</h2>
+        <h2>Bank Accounts</h2>
         <table class="table table-responsive my-3">
             <thead>
                 <tr>
@@ -55,18 +55,16 @@ export default {
                 createdAt: '',
                 accountType: '',
                 accountStatus: '',
-                user: {
-                    id: ''
-                }
+                user: []
             },
         };
     },
     methods: {
-        fetchAccounts() {
+        async fetchAccounts() {
             const iban = this.searchIban;
 
             if (iban) {
-                axios
+                await axios
                     .get(`http://localhost:8080/accounts/${iban}`)
                     .then(response => {
                         const account = response.data;
@@ -76,7 +74,7 @@ export default {
                         console.error(`Failed to get account with IBAN ${iban}: `, error);
                     });
             } else {
-                axios
+                await axios
                     .get(`http://localhost:8080/accounts`)
                     .then(response => {
                         this.accounts = response.data;

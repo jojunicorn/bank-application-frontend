@@ -11,7 +11,7 @@
     <div class="card limit" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">Daily Limit</h5>
-            <h6 class="card-subtitle mb-2 text-muted">How much you can still spend in today until 12pm</h6>
+            <h6 class="card-subtitle mb-2 text-muted">How much you can still spend today until 12pm</h6>
             <p class="card-text limit-amount">{{ dailyLimitResponse.dailyLimit.toLocaleString('en-US') }} €</p>
         </div>
     </div>

@@ -55,15 +55,23 @@ export default {
                 })
                 .catch(error => {
                     if (error.response && error.response.data) {
-                            this.errorMessage = error.response.data;
-                        } else {
-                            this.errorMessage = 'Failed to get accounts for the customer with name: ' + `${firstName}`;
-                        }
-                        this.successMessage = '';
+                        this.errorMessage = error.response.data;
+                    } else {
+                        this.errorMessage = 'Failed to get accounts for the customer with name: ' + `${firstName}`;
+                    }
+                    this.successMessage = '';
                 });
         },
     },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: green;
+}
+</style>

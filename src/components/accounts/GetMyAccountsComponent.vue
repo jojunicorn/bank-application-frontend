@@ -34,7 +34,7 @@ import axios from 'axios';
 export default {
     mounted() {
         //replace with logged in user
-        const userId = 2;
+        const userId = this.$route.params.id;
         this.fetchAccounts(userId);
     },
     data() {

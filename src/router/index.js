@@ -38,6 +38,11 @@ const router = createRouter({
       component: () => import('../views/UserATMView.vue')
     },
     {
+      path: '/user/:id/transactions',
+      name: 'userTransactions',
+      component: () => import('../views/UserTransactionsView.vue')
+    },
+    {
       path: '/user/:id/profile',
       name: 'userProfile',
       component: () => import('../views/UserProfileView.vue')

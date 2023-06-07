@@ -1,0 +1,32 @@
+#atm-machine {
+  width: 27em;
+}
+
+.atm-options {
+  position: absolute;
+  margin-left: 42.5em;
+  margin-top: -26.5em;
+  row-gap: 2em;
+  width: 10em;
+}
+
+.additional-container {
+  position: absolute;
+  width: 15em;
+  background-color: rgb(217,217,217,255);
+  padding: 0.5em;
+  margin-top: -28em;
+  margin-left: 40em;
+}
+
+#deposit-amount,
+#withdrawal-amount {
+  width: 5.5em;
+  height: 1.5em;
+}
+
+.btn-close{
+    width: 1em;
+    height: 1em;
+    background-image: url(../assets/closeBtn.png);
+}

@@ -1,11 +1,11 @@
 <script setup>
   import NavComponent from '../components/UserNavComponent.vue';
-  import UserATMComponent from '../components/UserATMComponent.vue';
+  import UserHomeComponent from '../components/UserHomeComponent.vue';
 </script>
 
 <template>
   <main>
     <NavComponent />
-    <UserATMComponent />
+    <UserHomeComponent />
   </main>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import NavComponent from '../components/NavComponent.vue';
+import NavComponent from '../components/UserNavComponent.vue';
 import GetUsers from '../components/GetUsers.vue';
 </script>
 

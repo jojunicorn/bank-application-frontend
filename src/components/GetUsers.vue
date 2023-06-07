@@ -2,8 +2,9 @@
 <div class="main">
     <div class="ml-3 mt-3">
         <h2>Manage Users</h2>
-        <button @click="openUserPopup" class="btn btn-primary">Add user</button>
-        <button class="btn btn-outline-primary">Users Without Account</button>
+        <button @click="openUserPopup" class="btn btn-primary action-btn">Add user</button>
+        <button id="userFilter" @click="getUsersWithoutAccount" class="btn btn-outline-primary action-btn">Users Without Account</button>
+        <button @click="getUsers" class="btn btn-outline-primary action-btn">All users</button>
         <table class="table table-responsive my-3">
             <thead>
                 <tr>
@@ -38,8 +39,8 @@
                     <td>{{ user.country }}</td>
                     <td>
                         <button class="btn btn-outline-info">Edit</button>
-                        <button class="btn btn-outline-danger">Delete</button>
-                        <button class="btn btn-outline-info">View Accounts</button>
+                        <button class="btn btn-outline-danger">Delete</button><br>
+                        <button class="btn btn-outline-info">Create Account</button>
                     </td>
                 </tr>
             </tbody>
@@ -169,17 +170,27 @@ export default {
     },
     methods: {
         async getUsers() {
-            try {
-                console.log('clicked');
-                // Test code until login with current logged in user is implemented
-                const userId = this.$route.params.id;
-                const response = await axios.get(`http://localhost:8080/users`);
-                const data = response.data;
-
-                this.userResponse = data; // Assign the response data to userResponse
-            } catch (error) {
-                console.log(error);
-            }
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTI3NTg3LCJleHAiOjE2ODYxMzExODd9.nYNq8GY3iK_T_9naXul0qVM6zQQvN4JKpzRjdIIZV_0UQpIDeEUzX3O14YcaOd5NQeVV6JmYFLGFPjhPxr-ycu0-Xibr8ZD30sGnmY6aRSzpYVc8m5mUxAyXQDreiPeFSRxaKl0iIMxtV1rkUkAcHLTGKJzEtzsowVwnw7hNkh2u420ETfrC9jiGtmZf9SCuIEBjK3AA3oYTzDFPzldPc51WKjSZa_eH2--AfRAc77jtkNY2rlyaYBAO1PII18QDu3uy65Fn5E1vFNV3cGroX3T3PeXM-xHwN8EFf02O_ff4Ny8LF52HZaXfwHRHBXLOZ0bDhh2goDuqvld50Nu9Yw"}`, }, };
+            await axios.get('https://localhost:8080/users?skip=1', config)
+                .then(response => {
+                    console.log(response.data);
+                    this.userResponse = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        
+        },
+        async getUsersWithoutAccount() {
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTI3NTg3LCJleHAiOjE2ODYxMzExODd9.nYNq8GY3iK_T_9naXul0qVM6zQQvN4JKpzRjdIIZV_0UQpIDeEUzX3O14YcaOd5NQeVV6JmYFLGFPjhPxr-ycu0-Xibr8ZD30sGnmY6aRSzpYVc8m5mUxAyXQDreiPeFSRxaKl0iIMxtV1rkUkAcHLTGKJzEtzsowVwnw7hNkh2u420ETfrC9jiGtmZf9SCuIEBjK3AA3oYTzDFPzldPc51WKjSZa_eH2--AfRAc77jtkNY2rlyaYBAO1PII18QDu3uy65Fn5E1vFNV3cGroX3T3PeXM-xHwN8EFf02O_ff4Ny8LF52HZaXfwHRHBXLOZ0bDhh2goDuqvld50Nu9Yw"}`, }, };
+            await axios.get('https://localhost:8080/users?hasAccount=false', config)
+                .then(response => {
+                    console.log(response.data);
+                    this.userResponse = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         async registerUser(){
             try{
@@ -300,5 +311,11 @@ export default {
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.5);
     z-index: 10;
+}
+.table{
+    width: 100%;
+}
+.action-btn{
+    margin-left:1%;
 }
 </style>

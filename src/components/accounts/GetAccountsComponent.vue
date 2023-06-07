@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         async fetchAccounts() {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDYwNTI3LCJleHAiOjE2ODYwNjQxMjd9.dVg5KDEWn3usn3HAM1poMOTg_9yg3fvIxpjR9Nw4xZc92at6JHWlABwoYiDtTeB3AxXqYekkHor60mLd3REC4U5MMWKXHH4Oz3CY81pyCpWZ_aengKO6CSAzMY8lzhyyK7B0eWDlqLMDu_qp1qe45dW-cjax9tWEyaq1QGRzYRSEyQyVV86GFv3eed-hd7zEoCMejPM0oD5XKC8wEHWaxEGOJpfTcGue5bloxHMaUtla87XQuLVD3-gSfsHSOwsBMEiL5wMUZ_gXx1k6mufWUxGjXdGVpTgk6daQfTBBHwEXjc0RU8lPyyb1u6zw6wO127h6z3yJAl-ryetXnxj6UA"}`, }, };
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTI3NTg3LCJleHAiOjE2ODYxMzExODd9.nYNq8GY3iK_T_9naXul0qVM6zQQvN4JKpzRjdIIZV_0UQpIDeEUzX3O14YcaOd5NQeVV6JmYFLGFPjhPxr-ycu0-Xibr8ZD30sGnmY6aRSzpYVc8m5mUxAyXQDreiPeFSRxaKl0iIMxtV1rkUkAcHLTGKJzEtzsowVwnw7hNkh2u420ETfrC9jiGtmZf9SCuIEBjK3AA3oYTzDFPzldPc51WKjSZa_eH2--AfRAc77jtkNY2rlyaYBAO1PII18QDu3uy65Fn5E1vFNV3cGroX3T3PeXM-xHwN8EFf02O_ff4Ny8LF52HZaXfwHRHBXLOZ0bDhh2goDuqvld50Nu9Yw"}`, }, };
             const iban = this.searchIban;
 
             if (iban) {

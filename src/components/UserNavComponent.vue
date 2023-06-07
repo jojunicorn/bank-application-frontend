@@ -17,9 +17,6 @@
             <li class="nav-item">
             <a class="nav-link" href="/users">User Management</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/transactions">Transaction Management</a>
-            </li>
 
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">

@@ -43,7 +43,7 @@
 </template>
   
 <script>
-import axios from 'axios';
+import axios from '../../axiosConfig';
 export default {
     created() {
         this.fetchUserList();
@@ -60,9 +60,7 @@ export default {
     },
     methods: {
         async fetchUserList() {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
-            await axios.get('https://localhost:8080/users')
+            await axios.get('/users')
                 .then(response => {
                     console.log(response.data);
                     this.userList = response.data;
@@ -73,8 +71,6 @@ export default {
                 });
         },
         async createAccount() {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
             const accountRequest = {
                 accountHolder: {
                     id: this.userId,
@@ -83,7 +79,7 @@ export default {
                 accountStatus: this.accountStatus,
             };
 
-            await axios.post('https://localhost:8080/accounts', accountRequest)
+            await axios.post('/accounts', accountRequest)
                 .then(response => {
                     this.successMessage = response.data;
                     this.errorMessage = '';

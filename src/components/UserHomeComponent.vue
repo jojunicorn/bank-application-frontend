@@ -21,7 +21,7 @@ export default {
     // needs to be specified in login
     this.getUser()
   },
-  mounted() {},
+  mounted() { },
   data() {
     return {
       userResponse: {
@@ -58,11 +58,12 @@ export default {
         console.log(error)
       }
     }
-  };
+  }
+}
 
 </script>
 
-<style>
+<style scoped>
 .main {
   margin: 2%;
 }

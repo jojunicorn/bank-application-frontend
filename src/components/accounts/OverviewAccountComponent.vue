@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from '../../axiosConfig';
 export default {
     mounted() {
         const iban = this.$route.params.iban;
@@ -40,11 +40,9 @@ export default {
     },
     methods: {
         async fetchMyAccount(iban) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
             try {
                 const response = await axios
-                    .get(`https://localhost:8080/accounts/${iban}`);
+                    .get(`/accounts/${iban}`);
 
                 const account = response.data;
                 this.account = account;

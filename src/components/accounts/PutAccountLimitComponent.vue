@@ -17,8 +17,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
+import axios from '../../axiosConfig';
 export default {
     data() {
         return {
@@ -30,8 +29,6 @@ export default {
     },
     methods: {
         async updateAccountAbsoluteLimit() {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
             const iban = this.iban;
             const absoluteLimit = this.absoluteLimit;
 
@@ -40,7 +37,7 @@ export default {
             };
 
             await axios
-                .put(`https://localhost:8080/accounts/absoluteLimit/${iban}`, requestData)
+                .put(`/accounts/absoluteLimit/${iban}`, requestData)
                 .then(response => {
                     this.successMessage = response.data;
                     this.errorMessage = '';

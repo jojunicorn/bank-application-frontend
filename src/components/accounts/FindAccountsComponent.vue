@@ -44,10 +44,9 @@ export default {
     methods: {
         async searchAccounts() {
             const firstName = this.searchFirstName;
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
             await axios
-                .get(`https://localhost:8080/accounts/getIbanByCustomerName?firstName=${firstName}`)
+                .get(`/accounts/getIbanByCustomerName?firstName=${firstName}`)
                 .then(response => {
                     this.accounts = response.data;
                     this.errorMessage = '';

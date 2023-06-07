@@ -1,32 +1,73 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark blue">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Banking Application</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="#"><b>Banking Application</b></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li class="nav-item">
-            <a class="nav-link active" aria-current="page" :href="'/user/' + $route.params.id">Home</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" :href="'/user/' + $route.params.id + '/atm'">ATM</a> <!-- hardcoded for now-->
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" :href="'/user/' + $route.params.id + '/transactions'">Transactions</a> <!-- hardcoded for now-->
-            </li>
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
-                User
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" :href="'/user/' + $route.params.id"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" :href="'/user/' + $route.params.id + '/atm'">ATM</a>
+            <!-- hardcoded for now-->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" :href="'/user/' + $route.params.id + '/transactions'">Transactions</a>
+            <!-- hardcoded for now-->
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdownMenuLink"
+              role="button"
+              data-toggle="dropdown"
+              aria-expanded="false"
+            >
+              User
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" :href="'/user/' + $route.params.id + '/profile'">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li>
+                <a class="dropdown-item" :href="'/user/' + $route.params.id + '/profile'"
+                  >Profile</a
+                >
+              </li>
             </ul>
-            </li>
+          </li>
+          <li><a class="nav-link" @click="logout">Logout</a></li>
         </ul>
-        </div>
+      </div>
     </div>
-    </nav>
+  </nav>
 </template>
+<script>
+export default {
+  methods: {
+    logout() {
+      // Clear the token from local storage or session
+      localStorage.removeItem('token')
+
+      // Redirect the user to the login page or any desired route
+      this.$router.push({ name: 'login' })
+    }
+  }
+}
+</script>
+<style scoped>
+.blue {
+  background-image: url(../assets/background2.jpg);
+}
+</style>

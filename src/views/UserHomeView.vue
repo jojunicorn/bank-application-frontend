@@ -1,11 +1,27 @@
 <script setup>
-  import UserNavComponent from '../components/UserNavComponent.vue';
+  import NavComponent from '../components/UserNavComponent.vue';
   import UserHomeComponent from '../components/UserHomeComponent.vue';
+  import UserLimitsComponent from '../components/UserLimitsComponent.vue';
+  import GetMyAccountsComponent from '../components/accounts/GetMyAccountsComponent.vue';
 </script>
 
 <template>
   <main>
-    <UserNavComponent />
+    <NavComponent />
     <UserHomeComponent />
+    <GetMyAccountsComponent />
+    <UserLimitsComponent />
   </main>
 </template>
+
+<style scoped>
+  /* main{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/background2.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;  
+  } */
+</style>

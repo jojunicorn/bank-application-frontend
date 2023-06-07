@@ -5,13 +5,8 @@
       <label for="ibanSearch" class="col-sm-2 col-form-label">Search account by IBAN: </label>
       <div class="col-md-10">
         <div class="input-group">
-          <input
-            type="text"
-            id="ibanSearch"
-            class="form-control col-md-2"
-            v-model="searchIban"
-            placeholder="Enter IBAN"
-          />
+          <input type="text" id="ibanSearch" class="form-control col-md-2" v-model="searchIban"
+            placeholder="Enter IBAN" />
           <div class="input-group-append">
             <button @click="fetchAccounts" class="btn btn-primary">Search account</button>
           </div>
@@ -52,12 +47,10 @@
             <td>{{ account.user.firstName }} {{ account.user.lastName }}</td>
             <td>
               <div class="btn-group" role="group">
-                <a href="/accounts/accountStatus" target="_blank" class="btn btn-warning mt-3 mr-3"
-                  >Update account status</a
-                >
-                <a href="/accounts/absoluteLimit" target="_blank" class="btn btn-warning mt-3 mr-3"
-                  >Update absolute limit</a
-                >
+                <a href="/accounts/accountStatus" target="_blank" class="btn btn-warning mt-3 mr-3">Update account
+                  status</a>
+                <a href="/accounts/absoluteLimit" target="_blank" class="btn btn-warning mt-3 mr-3">Update absolute
+                  limit</a>
               </div>
             </td>
           </tr>
@@ -72,59 +65,57 @@
 <script>
 import axios from 'axios'
 export default {
-    mounted() {
-        this.fetchAccounts();
-    },
-    data() {
-        return {
-            accounts: [],
-            errorMessage: '',
-            successMessage: '',
-        };
-    },
-    methods: {
-        async fetchAccounts() {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-            const iban = this.searchIban;
+  mounted() {
+    this.fetchAccounts();
+  },
+  data() {
+    return {
+      accounts: [],
+      errorMessage: '',
+      successMessage: '',
+    };
+  },
+  methods: {
+    async fetchAccounts() {
+      const iban = this.searchIban;
 
-            if (iban) {
-                await axios
-                    .get(`https://localhost:8080/accounts/${iban}`)
-                    .then(response => {
-                        this.errorMessage = '';
-                        const account = response.data;
-                        this.accounts = [account];
-                    })
-                    .catch(error => {
-                        if (error.response && error.response.data) {
-                            this.errorMessage = error.response.data;
-                        } else {
-                            this.errorMessage = 'Failed to get account with IBAN.' + iban;
-                        }
-                        this.successMessage = '';
-                    });
-            } else {
-                await axios
-                    .get(`https://localhost:8080/accounts`)
-                    .then(response => {
-                        this.errorMessage = '';
-                        this.accounts = response.data;
-                    })
-                    .catch(error => {
-                        if (error.response && error.response.data) {
-                            this.errorMessage = error.response.data;
-                        } else {
-                            this.errorMessage = 'Failed to get accounts.';
-                        }
-                        this.successMessage = '';
-                    });
-            }
-            this.successMessage = ''
+      if (iban) {
+        await axios
+          .get(`https://localhost:8080/accounts/${iban}`)
+          .then(response => {
+            this.errorMessage = '';
+            const account = response.data;
+            this.accounts = [account];
           })
+          .catch(error => {
+            if (error.response && error.response.data) {
+              this.errorMessage = error.response.data;
+            } else {
+              this.errorMessage = 'Failed to get account with IBAN.' + iban;
+            }
+            this.successMessage = '';
+          });
+      } else {
+        await axios
+          .get(`/accounts`)
+          .then(response => {
+            this.errorMessage = '';
+            this.accounts = response.data;
+          })
+          .catch(error => {
+            if (error.response && error.response.data) {
+              this.errorMessage = error.response.data;
+            } else {
+              this.errorMessage = 'Failed to get accounts.';
+            }
+            this.successMessage = '';
+          });
       }
+      this.successMessage = ''
     }
   }
 }
+
 </script>
 
 <style scoped>

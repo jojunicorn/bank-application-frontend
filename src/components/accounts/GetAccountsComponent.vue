@@ -5,13 +5,8 @@
       <label for="ibanSearch" class="col-sm-2 col-form-label">Search account by IBAN: </label>
       <div class="col-md-10">
         <div class="input-group">
-          <input
-            type="text"
-            id="ibanSearch"
-            class="form-control col-md-2"
-            v-model="searchIban"
-            placeholder="Enter IBAN"
-          />
+          <input type="text" id="ibanSearch" class="form-control col-md-2" v-model="searchIban"
+            placeholder="Enter IBAN" />
           <div class="input-group-append">
             <button @click="fetchAccounts" class="btn btn-primary">Search account</button>
           </div>
@@ -52,12 +47,10 @@
             <td>{{ account.user.firstName }} {{ account.user.lastName }}</td>
             <td>
               <div class="btn-group" role="group">
-                <a href="/accounts/accountStatus" target="_blank" class="btn btn-warning mt-3 mr-3"
-                  >Update account status</a
-                >
-                <a href="/accounts/absoluteLimit" target="_blank" class="btn btn-warning mt-3 mr-3"
-                  >Update absolute limit</a
-                >
+                <a href="/accounts/accountStatus" target="_blank" class="btn btn-warning mt-3 mr-3">Update account
+                  status</a>
+                <a href="/accounts/absoluteLimit" target="_blank" class="btn btn-warning mt-3 mr-3">Update absolute
+                  limit</a>
               </div>
             </td>
           </tr>
@@ -73,59 +66,56 @@
 import axios from 'axios'
 export default {
   mounted() {
-    this.fetchAccounts()
+    this.fetchAccounts();
   },
   data() {
     return {
       accounts: [],
       errorMessage: '',
-      successMessage: ''
-    }
+      successMessage: '',
+    };
   },
   methods: {
     async fetchAccounts() {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTI3NTg3LCJleHAiOjE2ODYxMzExODd9.nYNq8GY3iK_T_9naXul0qVM6zQQvN4JKpzRjdIIZV_0UQpIDeEUzX3O14YcaOd5NQeVV6JmYFLGFPjhPxr-ycu0-Xibr8ZD30sGnmY6aRSzpYVc8m5mUxAyXQDreiPeFSRxaKl0iIMxtV1rkUkAcHLTGKJzEtzsowVwnw7hNkh2u420ETfrC9jiGtmZf9SCuIEBjK3AA3oYTzDFPzldPc51WKjSZa_eH2--AfRAc77jtkNY2rlyaYBAO1PII18QDu3uy65Fn5E1vFNV3cGroX3T3PeXM-xHwN8EFf02O_ff4Ny8LF52HZaXfwHRHBXLOZ0bDhh2goDuqvld50Nu9Yw'}`
-        }
-      }
-      const iban = this.searchIban
+      const iban = this.searchIban;
 
       if (iban) {
         await axios
           .get(`https://localhost:8080/accounts/${iban}`)
-          .then((response) => {
-            this.errorMessage = ''
-            const account = response.data
-            this.accounts = [account]
+          .then(response => {
+            this.errorMessage = '';
+            const account = response.data;
+            this.accounts = [account];
           })
-          .catch((error) => {
+          .catch(error => {
             if (error.response && error.response.data) {
-              this.errorMessage = error.response.data
+              this.errorMessage = error.response.data;
             } else {
-              this.errorMessage = 'Failed to get account with IBAN.' + iban
+              this.errorMessage = 'Failed to get account with IBAN.' + iban;
             }
-            this.successMessage = ''
-          })
+            this.successMessage = '';
+          });
       } else {
         await axios
-          .get(`https://localhost:8080/accounts`)
-          .then((response) => {
-            this.errorMessage = ''
-            this.accounts = response.data
+          .get(`/accounts`)
+          .then(response => {
+            this.errorMessage = '';
+            this.accounts = response.data;
           })
-          .catch((error) => {
+          .catch(error => {
             if (error.response && error.response.data) {
-              this.errorMessage = error.response.data
+              this.errorMessage = error.response.data;
             } else {
-              this.errorMessage = 'Failed to get accounts.'
+              this.errorMessage = 'Failed to get accounts.';
             }
-            this.successMessage = ''
-          })
+            this.successMessage = '';
+          });
       }
+      this.successMessage = ''
     }
   }
 }
+
 </script>
 
 <style scoped>

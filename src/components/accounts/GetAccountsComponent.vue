@@ -77,11 +77,9 @@ export default {
     },
     methods: {
         async fetchAccounts() {
-<<<<<<< HEAD
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTI3NTg3LCJleHAiOjE2ODYxMzExODd9.nYNq8GY3iK_T_9naXul0qVM6zQQvN4JKpzRjdIIZV_0UQpIDeEUzX3O14YcaOd5NQeVV6JmYFLGFPjhPxr-ycu0-Xibr8ZD30sGnmY6aRSzpYVc8m5mUxAyXQDreiPeFSRxaKl0iIMxtV1rkUkAcHLTGKJzEtzsowVwnw7hNkh2u420ETfrC9jiGtmZf9SCuIEBjK3AA3oYTzDFPzldPc51WKjSZa_eH2--AfRAc77jtkNY2rlyaYBAO1PII18QDu3uy65Fn5E1vFNV3cGroX3T3PeXM-xHwN8EFf02O_ff4Ny8LF52HZaXfwHRHBXLOZ0bDhh2goDuqvld50Nu9Yw"}`, }, };
-=======
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
->>>>>>> master
+            // const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTMzMTQ0LCJleHAiOjE2ODYyMTk1NDR9.ZfsFcnH2E1BsUCKw-JxsnrWx11utGdsfL0u1XEOGoa4OJXneavn3a_aGKXl1x7Wp0cSNgm8188t-kFP-iuNK6KBg6Lywq02uFbC45FBLVQZm0rjnbKiE6lxxlNSOVEf3fwc_m_aUIpleMebK9gO5KEhDOUHYHfnnuaMV1mmc3SCrMFKy4Upa4wn5li85sv7_n5DPreIWxTpZKq8gCgq8YDTnr9bh_Y862NunaNKU69_mWYA0vJrO0Ekn2cJnS7FxteNP5AW_k_hqZBSf1SCv-qLR4cb8WtbU3EgZtvSNtPAdGdmAN0P4R3__KOvQLF5FEDXaSLDCZ95GOu_YR5hwbg"}`, }, };
+            // const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, }, };
+            const config = axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
             const iban = this.searchIban;
 
             if (iban) {

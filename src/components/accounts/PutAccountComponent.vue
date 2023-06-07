@@ -19,8 +19,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
+import axios from '../../axiosConfig';
 export default {
     data() {
         return {
@@ -32,8 +31,6 @@ export default {
     },
     methods: {
         async updateAccountStatus() {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
             const iban = this.iban;
             const accountStatus = this.accountStatus;
 
@@ -42,7 +39,7 @@ export default {
             };
 
             await axios
-                .put(`https://localhost:8080/accounts/accountStatus/${iban}`, requestData)
+                .put(`/accounts/accountStatus/${iban}`, requestData)
                 .then(response => {
                     this.successMessage = response.data;
                     this.errorMessage = '';

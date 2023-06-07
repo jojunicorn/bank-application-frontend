@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../axiosConfig';
 export default {
     mounted() {
         //replace with logged in user
@@ -45,10 +45,8 @@ export default {
     },
     methods: {
         async fetchAccounts(userId) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
             await axios
-                .get(`https://localhost:8080/accounts/myAccounts/${userId}`)
+                .get(`/accounts/myAccounts/${userId}`)
                 .then(response => {
                     this.accounts = response.data;
                     this.loading = false;

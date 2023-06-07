@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '../../axiosConfig';
 export default {
   mounted() {
     this.fetchAccounts();
@@ -81,7 +81,7 @@ export default {
 
       if (iban) {
         await axios
-          .get(`https://localhost:8080/accounts/${iban}`)
+          .get(`/accounts/${iban}`)
           .then(response => {
             this.errorMessage = '';
             const account = response.data;
@@ -115,7 +115,7 @@ export default {
     }
   }
 }
-
+  
 </script>
 
 <style scoped>

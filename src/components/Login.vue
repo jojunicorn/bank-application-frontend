@@ -37,14 +37,23 @@ export default {
   methods: {
     async login() {
       const loginRequest = {
-        accountHolder: this.email,
+        email: this.email,
         password: this.password
       }
 
       try {
         const response = await axios.post(`https://localhost:8080/login`, loginRequest)
 
-        this.successMessage = response.data
+        const token = response.data.token
+        const userId = response.data.userId
+
+        // Save the token in local storage or session
+        localStorage.setItem('token', token)
+
+        // Redirect the user to the userHome route with the user ID as a parameter
+        this.$router.push({ name: 'userHome', params: { id: userId } })
+
+        this.successMessage = 'Login successful'
         this.errorMessage = ''
       } catch (error) {
         if (error.response && error.response.data) {

@@ -49,10 +49,10 @@ export default {
   methods: {
     async getTransactionLimit() {
       try {
-        const userId = this.$route.params.id
+        const userId = localStorage.getItem('id');
 
         const response = await axios.get(
-          `https://localhost:8080/users/transactionLimit/${userId}`,
+          `/users/transactionLimit/${userId}`,
           this.transactionLimitResponse
         )
         const status = JSON.parse(response.status)
@@ -68,10 +68,10 @@ export default {
     },
     async getDailyLimit() {
       try {
-        const userId = this.$route.params.id
+        const userId = localStorage.getItem('id');
 
         const response = await axios.get(
-          `https://localhost:8080/users/dailyLimit/${userId}`,
+          `/users/dailyLimit/${userId}`,
           this.dailyLimitResponse
         )
         const status = JSON.parse(response.status)

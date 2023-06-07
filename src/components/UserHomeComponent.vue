@@ -13,15 +13,14 @@
 </template>
 
 <script>
-import axios from 'axios'
-import axiosConfig from '../axiosConfig'
+import axios from '../axiosConfig'
 
 export default {
   created() {
     // needs to be specified in login
     this.getUser()
   },
-  mounted() { },
+  mounted() { const userId = localStorage.getItem('id') },
   data() {
     return {
       userResponse: {
@@ -45,7 +44,7 @@ export default {
   methods: {
     async getUser() {
       try {
-        const userId = this.$route.params.id // Access userId from $route.params object
+        // Access userId from $route.params object
         const response = await axios.get(`/users/${userId}`)
         console.log(response)
 

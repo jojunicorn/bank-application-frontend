@@ -77,7 +77,7 @@ export default {
     console.log(console.log(currentUser.birthdate));
   },
   mounted() {
-    const userId = this.$route.params.id;
+    const userId = localStorage.getItem('id')
     console.log(userId); // Output the value of the 'id' parameter
   },
   data() {
@@ -119,8 +119,7 @@ export default {
       try {
         console.log('clicked');
         // Test code until login with current logged in user is implemented
-        const userId = this.$route.params.id;
-        const response = await axios.get(`http://localhost:8080/users/${userId}`);
+        const response = await axios.get(`/users/${userId}`);
         const data = response.data;
 
         this.userResponse = data; // Assign the response data to userResponse
@@ -145,7 +144,7 @@ export default {
         this.userRequest.city = this.userResponse.city;
         this.userRequest.country = this.userResponse.country;
 
-        const response = await axios.put(`http://localhost:8080/users/updateInformation/${this.userResponse.id}`, this.userRequest);
+        const response = await axios.put(`/users/updateInformation/${this.userResponse.id}`, this.userRequest);
         const status = response.status;
         
         if (status === 201) {

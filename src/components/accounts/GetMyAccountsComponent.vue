@@ -33,8 +33,7 @@
 import axios from '../../axiosConfig';
 export default {
     mounted() {
-        //replace with logged in user
-        const userId = this.$route.params.id;
+        const userId = localStorage.getItem('id');
         this.fetchAccounts(userId);
     },
     data() {

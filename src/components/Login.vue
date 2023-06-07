@@ -51,6 +51,8 @@ export default {
         localStorage.setItem('token', token)
         console.log(localStorage.getItem('token'))
 
+        localStorage.setItem('id', userId)
+
         // Redirect the user to the userHome route with the user ID as a parameter
         this.$router.push({ name: 'userHome', params: { id: userId } })
 

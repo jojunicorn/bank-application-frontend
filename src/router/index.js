@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Login from '../components/Login.vue'
-
+const userId = localStorage.getItem('id')
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -28,22 +28,22 @@ const router = createRouter({
       component: () => import('../views/UserLoginView.vue')
     },
     {
-      path: '/user/:id',
+      path: `/user/${userId}`,
       name: 'userHome',
       component: () => import('../views/UserHomeView.vue')
     },
     {
-      path: '/user/:id/atm',
+      path: `/user/:userId/atm`,
       name: 'userATM',
       component: () => import('../views/UserATMView.vue')
     },
     {
-      path: '/user/:id/transactions',
+      path: `/user/:userId/transactions`,
       name: 'userTransactions',
       component: () => import('../views/UserTransactionsView.vue')
     },
     {
-      path: '/user/:id/profile',
+      path: `/user/${userId}/profile`,
       name: 'userProfile',
       component: () => import('../views/UserProfileView.vue')
     },

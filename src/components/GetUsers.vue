@@ -40,7 +40,8 @@
                     <td>
                         <button class="btn btn-outline-info">Edit</button>
                         <button class="btn btn-outline-danger">Delete</button><br>
-                        <button class="btn btn-outline-info">Create Account</button>
+                        <!-- add this create account button to users without account only -->
+                        <button class="btn btn-outline-info">Create account</button><br>
                     </td>
                 </tr>
             </tbody>
@@ -127,7 +128,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../axiosConfig';
 export default {
     mounted() {
         this.getUsers();
@@ -164,14 +165,13 @@ export default {
                 zipCode: '',
                 city: '',
                 country: '', 
-                role: "ROLE_EMPLOYEE"
+                role: "ROLE_USER"
                 }
         };
     },
     methods: {
         async getUsers() {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTI3NTg3LCJleHAiOjE2ODYxMzExODd9.nYNq8GY3iK_T_9naXul0qVM6zQQvN4JKpzRjdIIZV_0UQpIDeEUzX3O14YcaOd5NQeVV6JmYFLGFPjhPxr-ycu0-Xibr8ZD30sGnmY6aRSzpYVc8m5mUxAyXQDreiPeFSRxaKl0iIMxtV1rkUkAcHLTGKJzEtzsowVwnw7hNkh2u420ETfrC9jiGtmZf9SCuIEBjK3AA3oYTzDFPzldPc51WKjSZa_eH2--AfRAc77jtkNY2rlyaYBAO1PII18QDu3uy65Fn5E1vFNV3cGroX3T3PeXM-xHwN8EFf02O_ff4Ny8LF52HZaXfwHRHBXLOZ0bDhh2goDuqvld50Nu9Yw"}`, }, };
-            await axios.get('https://localhost:8080/users?skip=1', config)
+            await axios.get('/users')
                 .then(response => {
                     console.log(response.data);
                     this.userResponse = response.data;
@@ -182,8 +182,7 @@ export default {
         
         },
         async getUsersWithoutAccount() {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTI3NTg3LCJleHAiOjE2ODYxMzExODd9.nYNq8GY3iK_T_9naXul0qVM6zQQvN4JKpzRjdIIZV_0UQpIDeEUzX3O14YcaOd5NQeVV6JmYFLGFPjhPxr-ycu0-Xibr8ZD30sGnmY6aRSzpYVc8m5mUxAyXQDreiPeFSRxaKl0iIMxtV1rkUkAcHLTGKJzEtzsowVwnw7hNkh2u420ETfrC9jiGtmZf9SCuIEBjK3AA3oYTzDFPzldPc51WKjSZa_eH2--AfRAc77jtkNY2rlyaYBAO1PII18QDu3uy65Fn5E1vFNV3cGroX3T3PeXM-xHwN8EFf02O_ff4Ny8LF52HZaXfwHRHBXLOZ0bDhh2goDuqvld50Nu9Yw"}`, }, };
-            await axios.get('https://localhost:8080/users?hasAccount=false', config)
+            await axios.get('/users?hasAccount=false')
                 .then(response => {
                     console.log(response.data);
                     this.userResponse = response.data;
@@ -199,7 +198,7 @@ export default {
             if(this.registeringMessage === ''){
                 
                 //console.log(this.registerRequest);
-                const response = await axios.post('http://localhost:8080/users', this.registerRequest);
+                const response = await axios.post('/users', this.registerRequest);
                 const status = JSON.parse(response.status);
                 //console.log(response);
                 //redirect logic

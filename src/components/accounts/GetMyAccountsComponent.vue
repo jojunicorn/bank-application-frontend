@@ -9,7 +9,7 @@
             <li v-for="account in accounts" :key="account.id">
                 <div class="container limits">
                     <div class="row">
-                        <div class="card limit" style="width: 18rem;">
+                        <div class="card limit">
                             <div class="card-body">
                                 <h4 class="card-title text-center"> Account IBAN: <a
                                         :href="`/accounts/myAccount/${account.iban}`">{{ account.iban }}</a></h4>
@@ -70,13 +70,9 @@ export default {
 .limit {
     margin: 5%;
     text-align-last: center;
-
+    background-color: purple;
+    width: auto;
 }
-
-/* .limits {
-    margin-left: 23%;
-    margin-right: 23%;
-} */
 
 .inline-list {
     display: inline-flex;
@@ -88,7 +84,6 @@ export default {
 .inline-list li {
     flex: 1 0 50%;
     /* Adjust this value to control the width of each li element */
-    padding-left: 100px;
-    /* Optional: Add padding to create some space between each li element */
+    padding-left: 50px;
 }
 </style>

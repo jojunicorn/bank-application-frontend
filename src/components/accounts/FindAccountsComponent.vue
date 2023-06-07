@@ -25,6 +25,8 @@
                 </tr>
             </tbody>
         </table>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
     </div>
 </template>
 
@@ -36,6 +38,8 @@ export default {
         return {
             firstName: '',
             accounts: [],
+            errorMessage: '',
+            successMessage: '',
         };
     },
     methods: {
@@ -47,9 +51,15 @@ export default {
                 .get(`https://localhost:8080/accounts/getIbanByCustomerName?firstName=${firstName}`, config)
                 .then(response => {
                     this.accounts = response.data;
+                    this.errorMessage = '';
                 })
                 .catch(error => {
-                    console.error(`Failed to find IBAN by customer name: `, error);
+                    if (error.response && error.response.data) {
+                            this.errorMessage = error.response.data;
+                        } else {
+                            this.errorMessage = 'Failed to get accounts for the customer with name: ' + `${firstName}`;
+                        }
+                        this.successMessage = '';
                 });
         },
     },

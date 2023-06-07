@@ -1,8 +1,4 @@
 <template id="atm">
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-  />
   <div class="container d-flex justify-content-center">
     <img id="atm-machine" src="../assets/atmMachine.jpg" />
   </div>

@@ -22,6 +22,19 @@
                     <label for="savings" class="form-check-label">Savings</label>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="accountStatus">Select account status: </label>
+                <div class="form-check">
+                    <input type="radio" id="active" class="form-check-input" v-model="accountStatus" value="ACTIVE"
+                        required>
+                    <label for="active" class="form-check-label">Active</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="inactive" class="form-check-input" v-model="accountStatus" value="INACTIVE"
+                        required>
+                    <label for="inactive" class="form-check-label">Inactive</label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Create bank account</button>
         </form>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -38,15 +51,17 @@ export default {
     data() {
         return {
             userId: '',
-            accountType: 'SAVINGS',
+            accountType: 'CURRENT',
+            accountStatus: 'ACTIVE',
             errorMessage: '',
             successMessage: '',
             userList: [],
         };
     },
     methods: {
-        fetchUserList() {
-            axios.get('http://localhost:8080/users')
+        async fetchUserList() {
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
+            await axios.get('https://localhost:8080/users', config)
                 .then(response => {
                     console.log(response.data);
                     this.userList = response.data;
@@ -56,15 +71,18 @@ export default {
                     this.successMessage = '';
                 });
         },
-        createAccount() {
+        async createAccount() {
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
+
             const accountRequest = {
                 accountHolder: {
                     id: this.userId,
                 },
                 accountType: this.accountType,
+                accountStatus: this.accountStatus,
             };
 
-            axios.post('http://localhost:8080/accounts', accountRequest)
+            await axios.post('https://localhost:8080/accounts', accountRequest, config)
                 .then(response => {
                     this.successMessage = response.data;
                     this.errorMessage = '';

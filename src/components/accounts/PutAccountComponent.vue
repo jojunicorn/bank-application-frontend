@@ -13,6 +13,8 @@
             </select>
             <button @click="updateAccountStatus" class="btn btn-primary mt-3">Update Status</button>
         </div>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
     </div>
 </template>
 
@@ -24,10 +26,13 @@ export default {
         return {
             iban: '',
             accountStatus: 'ACTIVE',
+            errorMessage: '',
+            successMessage: '',
         };
     },
     methods: {
-        updateAccountStatus() {
+        async updateAccountStatus() {
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
             const iban = this.iban;
             const accountStatus = this.accountStatus;
 
@@ -35,15 +40,32 @@ export default {
                 accountStatus: accountStatus,
             };
 
-            axios
-                .put(`http://localhost:8080/accounts/accountStatus/${iban}`, requestData)
+            await axios
+                .put(`https://localhost:8080/accounts/accountStatus/${iban}`, requestData, config)
                 .then(response => {
+                    this.successMessage = response.data;
+                    this.errorMessage = '';
                     console.log("Status updated", response.data);
                 })
                 .catch(error => {
-                    console.error(`Failed to update account status: `, error);
+                    if (error.response && error.response.data) {
+                        this.errorMessage = error.response.data;
+                    } else {
+                        console.error(`Failed to update account status: `, error);
+                    }
+                    this.successMessage = '';
                 });
         },
     },
 };
 </script>
+
+<style scoped>
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: green;
+}
+</style>

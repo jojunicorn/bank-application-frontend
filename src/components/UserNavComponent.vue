@@ -18,6 +18,10 @@
           <li class="nav-item">
             <a class="nav-link" href="/accounts/getIbanByCustomerName">Find accounts/Start transaction</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" :href="'/user/' + $route.params.id + '/transactions'">Transactions</a>
+            <!-- hardcoded for now-->
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
               aria-expanded="false">

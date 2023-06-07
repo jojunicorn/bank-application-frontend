@@ -47,7 +47,7 @@
             try{
                 const userId = this.$route.params.id;
 
-                const response = await axios.get(`http://localhost:8080/users/transactionLimit/${userId}`, this.transactionLimitResponse);
+                const response = await axios.get(`https://localhost:8080/users/transactionLimit/${userId}`, this.transactionLimitResponse);
                 const status = JSON.parse(response.status);
                 const data = response.data; // Response data
 
@@ -64,7 +64,7 @@
             try{
                 const userId = this.$route.params.id;
 
-                const response = await axios.get(`http://localhost:8080/users/dailyLimit/${userId}`, this.dailyLimitResponse);
+                const response = await axios.get(`https://localhost:8080/users/dailyLimit/${userId}`, this.dailyLimitResponse);
                 const status = JSON.parse(response.status);
                 const data = response.data; // Response data
 

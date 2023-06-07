@@ -25,6 +25,8 @@
                 </tr>
             </tbody>
         </table>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
     </div>
 </template>
 
@@ -36,24 +38,40 @@ export default {
         return {
             firstName: '',
             accounts: [],
+            errorMessage: '',
+            successMessage: '',
         };
     },
     methods: {
         async searchAccounts() {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDYwNTI3LCJleHAiOjE2ODYwNjQxMjd9.dVg5KDEWn3usn3HAM1poMOTg_9yg3fvIxpjR9Nw4xZc92at6JHWlABwoYiDtTeB3AxXqYekkHor60mLd3REC4U5MMWKXHH4Oz3CY81pyCpWZ_aengKO6CSAzMY8lzhyyK7B0eWDlqLMDu_qp1qe45dW-cjax9tWEyaq1QGRzYRSEyQyVV86GFv3eed-hd7zEoCMejPM0oD5XKC8wEHWaxEGOJpfTcGue5bloxHMaUtla87XQuLVD3-gSfsHSOwsBMEiL5wMUZ_gXx1k6mufWUxGjXdGVpTgk6daQfTBBHwEXjc0RU8lPyyb1u6zw6wO127h6z3yJAl-ryetXnxj6UA"}`, }, };
+            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
             const firstName = this.searchFirstName;
 
             await axios
                 .get(`https://localhost:8080/accounts/getIbanByCustomerName?firstName=${firstName}`, config)
                 .then(response => {
                     this.accounts = response.data;
+                    this.errorMessage = '';
                 })
                 .catch(error => {
-                    console.error(`Failed to find IBAN by customer name: `, error);
+                    if (error.response && error.response.data) {
+                        this.errorMessage = error.response.data;
+                    } else {
+                        this.errorMessage = 'Failed to get accounts for the customer with name: ' + `${firstName}`;
+                    }
+                    this.successMessage = '';
                 });
         },
     },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: green;
+}
+</style>

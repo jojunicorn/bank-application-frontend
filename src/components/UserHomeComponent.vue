@@ -47,7 +47,7 @@
           console.log('clicked');
           // Test code until login with current logged in user is implemented
           const userId = this.$route.params.id;
-          const response = await axios.get(`http://localhost:8080/users/${userId}`);
+          const response = await axios.get(`https://localhost:8080/users/${userId}`);
           const data = response.data;
   
           this.userResponse = data; // Assign the response data to userResponse

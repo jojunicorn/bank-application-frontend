@@ -19,11 +19,9 @@ import axiosConfig from '../axiosConfig'
 export default {
   created() {
     // needs to be specified in login
-    const currentUser = this.getUser()
+    this.getUser()
   },
-  mounted() {
-    const userId = this.$route.params.id
-  },
+  mounted() {},
   data() {
     return {
       userResponse: {
@@ -47,15 +45,14 @@ export default {
   methods: {
     async getUser() {
       try {
-        console.log('clicked')
-        // Test code until login with current logged in user is implemented
-        const userId = this.$route.params.id
-        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        const response = await axios.get(`http://localhost:8080/users/${userId}`)
+        const userId = this.$route.params.id // Access userId from $route.params object
+        const response = await axios.get(`/users/${userId}`)
+        console.log(response)
+
         const data = response.data
+        console.log(data)
 
         this.userResponse = data // Assign the response data to userResponse
-
         // Do further processing or handle the response as needed
       } catch (error) {
         console.log(error)

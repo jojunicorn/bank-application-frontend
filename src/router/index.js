@@ -68,11 +68,6 @@ const router = createRouter({
       component: () => import('../views/accounts/PutAccountView.vue')
     },
     {
-<<<<<<< HEAD
-      path: '/users',
-      name: 'getAllUsers',
-      component: () => import('../views/GetUsersView.vue')
-=======
       path: '/accounts/absoluteLimit',
       name: 'updateAbsoluteLimit',
       component: () => import('../views/accounts/PutAccountView.vue')
@@ -81,7 +76,6 @@ const router = createRouter({
       path: '/accounts/myAccount/:iban',
       name: 'overviewAccount',
       component: () => import('../views/accounts/OverviewAccountsView.vue')
->>>>>>> master
     }
   ]
 })

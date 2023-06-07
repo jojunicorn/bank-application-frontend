@@ -201,7 +201,7 @@ export default {
         this.checkRegisterData()
         if (this.registeringMessage === '') {
           //console.log(this.registerRequest);
-          const response = await axios.post('http://localhost:8080/users', this.registerRequest)
+          const response = await axios.post('/users', this.registerRequest)
           const status = JSON.parse(response.status)
           //console.log(response);
           //redirect logic
@@ -292,7 +292,7 @@ export default {
     async getUsers() {
       try {
         console.log('clicked')
-        const response = await axios.get('http://localhost:8080/users')
+        const response = await axios.get('/users')
         const status = JSON.parse(response.status)
         console.log(response)
         //redirect logic
@@ -313,7 +313,7 @@ export default {
       }
 
       try {
-        const response = await axios.post(`https://localhost:8080/login`, loginRequest)
+        const response = await axios.post(`/login`, loginRequest)
 
         const token = response.data.token
 

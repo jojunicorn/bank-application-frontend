@@ -48,6 +48,11 @@ const router = createRouter({
       component: () => import('../views/UserProfileView.vue')
     },
     {
+      path: '/users',
+      name: 'getAllUsers',
+      component: () => import('../views/GetUsersView.vue')
+    },
+    {
       path: '/accounts',
       name: 'getAccounts',
       component: () => import('../views/accounts/GetAccountsView.vue')
@@ -71,11 +76,6 @@ const router = createRouter({
       path: '/accounts/accountStatus',
       name: 'updateAccount',
       component: () => import('../views/accounts/PutAccountView.vue')
-    },
-    {
-      path: '/users',
-      name: 'getAllUsers',
-      component: () => import('../views/GetUsersView.vue')
     },
     {
       path: '/accounts/absoluteLimit',

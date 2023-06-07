@@ -42,13 +42,14 @@ export default {
       }
 
       try {
-        const response = await axios.post(`https://localhost:8080/login`, loginRequest)
+        const response = await axios.post(`/login`, loginRequest)
 
         const token = response.data.token
         const userId = response.data.userId
 
         // Save the token in local storage or session
         localStorage.setItem('token', token)
+        console.log(localStorage.getItem('token'))
 
         // Redirect the user to the userHome route with the user ID as a parameter
         this.$router.push({ name: 'userHome', params: { id: userId } })

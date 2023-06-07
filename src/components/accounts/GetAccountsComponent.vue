@@ -77,14 +77,12 @@ export default {
     },
     methods: {
         async fetchAccounts() {
-            // const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MTMzMTQ0LCJleHAiOjE2ODYyMTk1NDR9.ZfsFcnH2E1BsUCKw-JxsnrWx11utGdsfL0u1XEOGoa4OJXneavn3a_aGKXl1x7Wp0cSNgm8188t-kFP-iuNK6KBg6Lywq02uFbC45FBLVQZm0rjnbKiE6lxxlNSOVEf3fwc_m_aUIpleMebK9gO5KEhDOUHYHfnnuaMV1mmc3SCrMFKy4Upa4wn5li85sv7_n5DPreIWxTpZKq8gCgq8YDTnr9bh_Y862NunaNKU69_mWYA0vJrO0Ekn2cJnS7FxteNP5AW_k_hqZBSf1SCv-qLR4cb8WtbU3EgZtvSNtPAdGdmAN0P4R3__KOvQLF5FEDXaSLDCZ95GOu_YR5hwbg"}`, }, };
-            // const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, }, };
-            const config = axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
             const iban = this.searchIban;
 
             if (iban) {
                 await axios
-                    .get(`https://localhost:8080/accounts/${iban}`, config)
+                    .get(`https://localhost:8080/accounts/${iban}`)
                     .then(response => {
                         this.errorMessage = '';
                         const account = response.data;
@@ -100,7 +98,7 @@ export default {
                     });
             } else {
                 await axios
-                    .get(`https://localhost:8080/accounts`, config)
+                    .get(`https://localhost:8080/accounts`)
                     .then(response => {
                         this.errorMessage = '';
                         this.accounts = response.data;

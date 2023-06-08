@@ -86,7 +86,7 @@
               type="date"
               class="form-control"
               id="birthdate"
-              v-model="registerRequest.birthDate"
+              v-model="registerRequest.birthdate"
               required
             />
           </div>
@@ -179,6 +179,8 @@ pre {
 <script>
 import axios from '../axiosConfig'
 import axiosLogin from 'axios'
+import registerLogic from '@/assets/registeringLogic.js';
+
 
 export default {
   name: 'userLogin',
@@ -205,7 +207,7 @@ export default {
         password: '',
         bsn: '',
         phoneNumber: '',
-        birthDate: '',
+        birthdate: '',
         streetName: '',
         houseNumber: '',
         zipCode: '',
@@ -214,6 +216,7 @@ export default {
       }
     }
   },
+
   methods: {
     async login() {
       const loginRequest = {
@@ -288,57 +291,10 @@ export default {
       document.getElementById('goLogin').style.display = 'none'
     },
     checkRegisterData() {
-      this.passwordCheck()
-      this.phoneNumberCheck()
-      this.birthdateCheck()
-    },
-    passwordCheck() {
-      var passwordRegex = /^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/
-      if (!passwordRegex.test(this.registerRequest.password)) {
-        this.registeringMessage +=
-          'Password must contain: \n-at least 8 characters\n-one uppercase letter\n-one lowercase letter\n-one number\n-one special character \n\n'
-      }
-    },
-    phoneNumberCheck() {
-      var phoneNumberRegex = /^(?:[0-9+]+|\+[0-9]+\s[0-9]+\s[0-9]+)$/
-      if (!phoneNumberRegex.test(this.registerRequest.phoneNumber)) {
-        this.registeringMessage += 'Phonenumber is not in the correct format.\n'
-      }
-    },
-    birthdateCheck() {
-      var today = new Date()
-      var birthdateObj = new Date(this.registerRequest.birthDate)
-
-      // Calculate the difference in years
-      var age = today.getFullYear() - birthdateObj.getFullYear()
-
-      // Adjust the age based on the current month and day
-      if (
-        today.getMonth() < birthdateObj.getMonth() ||
-        (today.getMonth() === birthdateObj.getMonth() && today.getDate() < birthdateObj.getDate())
-      ) {
-        age--
-      }
-
-      if (age < 18) {
-        this.registeringMessage += 'You need to be 18 or older to make an Account. \n'
-      }
-    },
-    addressCheck() {
-      if (
-        this.registerRequest.country.length < 3 ||
-        this.registerRequest.city.length < 3 ||
-        this.registerRequest.streetName.length < 2 ||
-        this.registerRequest.zipCode.length < 3
-      ) {
-        this.registeringMessage += 'Make sure to enter a valid address \n'
-      }
-    },
-    bsnCheck() {
-      var bsnRegex = /^(?:[0-9+]+|\+[0-9]+\s[0-9]+\s[0-9]+)$/
-      if (!phoneNumberRegex.test(this.registerRequest.bsn)) {
-        this.registeringMessage += 'BSN is not in the correct format.\n'
-      }
+      this.registeringMessage += registerLogic.passwordCheck(this.registerRequest.password, this.registeringMessage)
+      this.registeringMessage += registerLogic.phoneNumberCheck(this.registerRequest.phoneNumber, this.registeringMessage)
+      this.registeringMessage += registerLogic.birthdateCheck(this.registerRequest.birthdate, this.registeringMessage)
+      this.registeringMessage += registerLogic.addressCheck(this.registerRequest.country, this.registerRequest.city, this.registerRequest.streetName, this.registerRequest.zipCode, this.registeringMessage)
     },
     reloadPage() {
       location.reload()

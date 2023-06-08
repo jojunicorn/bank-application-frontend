@@ -2,9 +2,9 @@
 <div class="main">
     <div class="ml-3 mt-3">
         <h2>Manage Users</h2>
-        <button @click="openUserPopup" class="btn btn-primary action-btn">Add user</button>
+        <button @click="openRegisterPopup" class="btn btn-primary action-btn">Add user</button>
         <div class="form-check no-account-radio">
-            <input class="form-check-input" type="checkbox" value="usersWithoutAccount" v-model="noAccountChecked" @change="radioButtonUsersWithoutAccount" id="usersWithoutAccount">
+            <input class="form-check-input" type="checkbox" value="usersWithoutAccount" v-model="noAccountChecked" @change="checkBoxUsersWithoutAccount" id="usersWithoutAccount">
             <label class="form-check-label" for="usersWithoutAccount">
                 Users without account
             </label>
@@ -42,7 +42,7 @@
                     <td>{{ user.city }}</td>
                     <td>{{ user.country }}</td>
                     <td>
-                        <button class="btn btn-outline-info">Edit</button>
+                        <button class="btn btn-outline-info" @click="openEditPopup(user)">Edit</button>
                         <button class="btn btn-outline-danger">Delete</button><br>
                         <!-- add this create account button to users without account only -->
                         <button class="btn btn-outline-info">Create account</button><br>
@@ -76,7 +76,7 @@
               <input type="email" class="form-control" id="email" v-model="registerRequest.email" required>
             </div>
             <div class="col-md-6">
-              <label for="password" class="form-label dark">Password</label>
+              <label for="password" id="lblPassword" class="form-label dark">Password</label>
               <input type="password" class="form-control" id="password" v-model="registerRequest.password" required>
             </div>
             <div class="col-md-6">
@@ -89,7 +89,7 @@
             </div>
             <div class="col-md-6">
               <label for="birthdate" class="form-label dark">Birthdate</label>
-              <input type="date" class="form-control" id="birthdate" v-model="registerRequest.birthDate" required>
+              <input type="date" class="form-control" id="birthdate" v-model="registerRequest.birthdate" required>
             </div>
             <div class="col-md-6">
               <label for="country" class="form-label dark">Country</label>
@@ -99,7 +99,7 @@
               <label for="streetName" class="form-label dark">Street Name</label>
               <input type="text" class="form-control" id="streetName" v-model="registerRequest.streetName" required>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
               <label for="houseNumber" class="form-label dark">Number</label>
               <input type="number" class="form-control" id="houseNumber" v-model="registerRequest.houseNumber" required>
             </div>
@@ -107,13 +107,14 @@
               <label for="city" class="form-label dark">City</label>
               <input type="text" class="form-control" id="city" v-model="registerRequest.city" required>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
               <label for="zipCode" class="form-label dark">Zip</label>
               <input type="text" class="form-control" id="zipCode" v-model="registerRequest.zipCode" required>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="closePopup">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="submit" id="btnRegisterSave" class="btn btn-primary">Register</button>
+                
             </div>
           </form>
       </div>
@@ -133,13 +134,18 @@
 
 <script>
 import axios from '../axiosConfig';
+import registerLogic from '@/assets/registeringLogic.js';
+
+
 export default {
     mounted() {
         this.getUsers();
     },
     data() {
         return {
+            temporaryIdSave: null,
             registeringMessage: '',
+            noAccountChecked: false,
 
             userResponse: {
                 id: '',
@@ -161,9 +167,9 @@ export default {
                 lastName: '',
                 email: '',
                 password: '',
-                bsn: '',
                 phoneNumber: '',
-                birthDate: '',
+                bsn: '',
+                birthdate: '',
                 streetName: '',
                 houseNumber: '',
                 zipCode: '',
@@ -193,42 +199,62 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+
+            this.closePopup();
         },
         async registerUser(){
             try{
-            //checking entered data
-            this.checkRegisterData();
-            if(this.registeringMessage === ''){
-                
-                console.log(this.registerRequest);
-                const response = await axios.post('/users/register', this.registerRequest);
-                const status = JSON.parse(response.status);
-                //console.log(response);
-                //redirect logic
-                if (status == 201) {
-                this.registeringMessage = "";
-                document.getElementById('popupHeading').style.color = "black";
-                document.getElementById('popupHeading').textContent = "Register Successful!";
-                document.getElementById('popupText').textContent = this.registeringMessage;
-                document.getElementById('popup').style.display = 'block';
-                //this.$router.push('/home');
+                if(this.temporaryIdSave != null){
+                    this.editUser()
                 }else{
-                this.registeringMessage = "Something went wrong. Please try again later or contact an employee."
-                }
-            }else{
-                document.getElementById('popupHeading').textContent = "Something went wront!";
-                document.getElementById('popupHeading').style.color = "red";
-                document.getElementById('popupText').textContent = this.registeringMessage;
-                document.getElementById('popup').style.display = 'block';
-            }
 
-            this.registeringMessage = '';
-            
+                        
+                    //checking entered data
+                    this.checkRegisterData();
+                    if(this.registeringMessage === ''){
+                        
+                        console.log(this.registerRequest);
+                        const response = await axios.post('/users/register', this.registerRequest);
+                        const status = JSON.parse(response.status);
+                        //console.log(response);
+                        //redirect logic
+                        if (status == 201) {
+                        this.registeringMessage = "";
+                        document.getElementById('popupHeading').style.color = "black";
+                        document.getElementById('popupHeading').textContent = "Register Successful!";
+                        document.getElementById('popupText').textContent = this.registeringMessage;
+                        document.getElementById('popup').style.display = 'block';
+                        //this.$router.push('/home');
+                        }else{
+                        this.registeringMessage = "Something went wrong. Please try again later or contact an employee."
+                        }
+                    }else{
+                        document.getElementById('popupHeading').textContent = "Something went wront!";
+                        document.getElementById('popupHeading').style.color = "red";
+                        document.getElementById('popupText').textContent = this.registeringMessage;
+                        document.getElementById('popup').style.display = 'block';
+                    }
+
+                    this.registeringMessage = '';
+                }
             }catch(error){
             console.log(error);
             }
         },
-        radioButtonUsersWithoutAccount(){
+        async editUser(){
+            await axios.put(`/users/updateInformation/${this.temporaryIdSave}`, this.userRequest)
+                .then(response => {
+                    console.log(response);
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+                
+                this.temporaryIdSave = null;
+        },
+
+        checkBoxUsersWithoutAccount(){
             if (this.noAccountChecked) {
                 this.getUsersWithoutAccount();
                 console.log('Here');
@@ -237,65 +263,55 @@ export default {
             }
             
         },
-        openUserPopup(){
+
+        //open popup for registering
+        openRegisterPopup(){
+            document.getElementById('btnRegisterSave').textContent = 'Register'
             document.getElementById('userPopupHeading').textContent = "Register a new User";
             document.getElementById('userPopup').style.display = 'block';
+            document.getElementById('password').style.display = 'block';
+            document.getElementById('lblPassword').style.display = 'block';
+            document.getElementById('password').setAttribute('required');
         },
-        // openEditUserPopup(id){
-        //     document.getElementById('userPopupHeading').textContent = "Edit User # "+id;
-        //     document.getElementById('userPopup').style.display = 'block';
-        // },
+
+
+        //open popup for editing
+        openEditPopup(user){
+            this.temporaryIdSave = user.id;
+            console.log(this.temporaryIdSave);
+            document.getElementById('btnRegisterSave').textContent = 'Save Changes'
+            document.getElementById('userPopupHeading').textContent = "Edit User #" + user.id;
+            document.getElementById('userPopup').style.display = 'block';
+            document.getElementById('password').style.display = 'none';
+            document.getElementById('lblPassword').style.display = 'none';
+            document.getElementById('password').removeAttribute('required');
+            this.registerRequest.firstName = user.firstName;
+            this.registerRequest.lastName = user.lastName;
+            this.registerRequest.email = user.email;
+            this.registerRequest.password = '';
+            this.registerRequest.phoneNumber = user.phoneNumber;
+            this.registerRequest.bsn = user.bsn;
+            this.registerRequest.birthdate = user.birthdate;
+            this.registerRequest.streetName = user.streetName;
+            this.registerRequest.houseNumber = user.houseNumber; 
+            this.registerRequest.zipCode = user.zipCode;
+            this.registerRequest.city = user.city;
+            this.registerRequest.country = user.country;
+        },
+
         closePopup() {
             document.getElementById('userPopup').style.display = 'none';
+            this.temporaryIdSave = null
         },
         closeErrorPopup(){
             document.getElementById('popup').style.display = 'none';
         },
 
-        checkRegisterData(){
-            this.passwordCheck();
-            this.phoneNumberCheck();
-            this.birthdateCheck()
-        },
-        passwordCheck(){
-            var passwordRegex = /^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
-            if(!passwordRegex.test(this.registerRequest.password)){
-            this.registeringMessage += "Password must contain: \n-at least 8 characters\n-one uppercase letter\n-one lowercase letter\n-one number\n-one special character \n\n"
-            }
-        },
-        phoneNumberCheck(){
-            var phoneNumberRegex = /^(?:[0-9+]+|\+[0-9]+\s[0-9]+\s[0-9]+)$/;
-            if(!phoneNumberRegex.test(this.registerRequest.phoneNumber)){
-            this.registeringMessage += "Phonenumber is not in the correct format.\n"
-            }
-        },
-        birthdateCheck(){
-            var today = new Date();
-            var birthdateObj = new Date(this.registerRequest.birthDate);
-
-            // Calculate the difference in years
-            var age = today.getFullYear() - birthdateObj.getFullYear();
-
-            // Adjust the age based on the current month and day
-            if (today.getMonth() < birthdateObj.getMonth() ||
-                (today.getMonth() === birthdateObj.getMonth() && today.getDate() < birthdateObj.getDate())) {
-            age--;
-            }
-
-            if(age<18){
-            this.registeringMessage += "You need to be 18 or older to make an Account. \n"
-            }
-        },
-        addressCheck(){
-            if(this.registerRequest.country.length < 3 || this.registerRequest.city.length < 3 || this.registerRequest.streetName.length < 2 || this.registerRequest.zipCode.length < 3){
-            this.registeringMessage += "Make sure to enter a valid address \n"
-            }
-        },
-        bsnCheck(){
-            var bsnRegex = /^(?:[0-9+]+|\+[0-9]+\s[0-9]+\s[0-9]+)$/;
-            if(!phoneNumberRegex.test(this.registerRequest.bsn)){
-            this.registeringMessage += "BSN is not in the correct format.\n"
-            }
+        checkRegisterData() {
+            this.registeringMessage += registerLogic.passwordCheck(this.registerRequest.password, this.registeringMessage)
+            this.registeringMessage += registerLogic.phoneNumberCheck(this.registerRequest.phoneNumber, this.registeringMessage)
+            this.registeringMessage += registerLogic.birthdateCheck(this.registerRequest.birthdate, this.registeringMessage)
+            this.registeringMessage += registerLogic.addressCheck(this.registerRequest.country, this.registerRequest.city, this.registerRequest.streetName, this.registerRequest.zipCode, this.registeringMessage)
         },
     },
 };

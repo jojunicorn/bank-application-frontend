@@ -10,16 +10,16 @@
         <ul class="navbar-nav">
           <!-- fir customer -->
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" :href="'/user/' + $route.params.id">Home</a>
+            <a class="nav-link active" aria-current="page" :href="'/user/' + userId">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" :href="'/user/' + $route.params.id + '/atm'">ATM</a>
+            <a class="nav-link" :href="'/user/' + this.userId + '/atm'">ATM</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/accounts/getIbanByCustomerName">Find accounts/Start transaction</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" :href="'/user/' + $route.params.id + '/transactions'">Transactions</a>
+            <a class="nav-link" :href="'/user/' + userId + '/transactions'">Transactions</a>
             <!-- hardcoded for now-->
           </li>
           <li class="nav-item dropdown">
@@ -29,7 +29,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <li>
-                <a class="dropdown-item" :href="'/user/' + $route.params.id + '/profile'">Profile</a>
+                <a class="dropdown-item" :href="'/user/' + userId + '/profile'">Profile</a>
               </li>
             </ul>
           </li>
@@ -60,6 +60,11 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      userId: localStorage.getItem('id')
+    };
+  },
   methods: {
     logout() {
       // Clear the token from local storage or session

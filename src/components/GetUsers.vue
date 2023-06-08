@@ -3,8 +3,12 @@
     <div class="ml-3 mt-3">
         <h2>Manage Users</h2>
         <button @click="openUserPopup" class="btn btn-primary action-btn">Add user</button>
-        <button id="userFilter" @click="getUsersWithoutAccount" class="btn btn-outline-primary action-btn">Users Without Account</button>
-        <button @click="getUsers" class="btn btn-outline-primary action-btn">All users</button>
+        <div class="form-check no-account-radio">
+            <input class="form-check-input" type="checkbox" value="usersWithoutAccount" v-model="noAccountChecked" @change="radioButtonUsersWithoutAccount" id="usersWithoutAccount">
+            <label class="form-check-label" for="usersWithoutAccount">
+                Users without account
+            </label>
+        </div>
         <table class="table table-responsive my-3">
             <thead>
                 <tr>
@@ -165,13 +169,12 @@ export default {
                 zipCode: '',
                 city: '',
                 country: '', 
-                role: "ROLE_USER"
-                }
+            }
         };
     },
     methods: {
         async getUsers() {
-            await axios.get('/users')
+            await axios.get('/users?skip=1')
                 .then(response => {
                     console.log(response.data);
                     this.userResponse = response.data;
@@ -197,8 +200,8 @@ export default {
             this.checkRegisterData();
             if(this.registeringMessage === ''){
                 
-                //console.log(this.registerRequest);
-                const response = await axios.post('/users', this.registerRequest);
+                console.log(this.registerRequest);
+                const response = await axios.post('/users/register', this.registerRequest);
                 const status = JSON.parse(response.status);
                 //console.log(response);
                 //redirect logic
@@ -224,6 +227,15 @@ export default {
             }catch(error){
             console.log(error);
             }
+        },
+        radioButtonUsersWithoutAccount(){
+            if (this.noAccountChecked) {
+                this.getUsersWithoutAccount();
+                console.log('Here');
+                } else {
+                this.getUsers();
+            }
+            
         },
         openUserPopup(){
             document.getElementById('userPopupHeading').textContent = "Register a new User";
@@ -316,5 +328,8 @@ export default {
 }
 .action-btn{
     margin-left:1%;
+}
+.no-account-radio{
+    margin-top: 2%
 }
 </style>

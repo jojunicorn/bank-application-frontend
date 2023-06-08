@@ -16,19 +16,18 @@
 import axios from '../axiosConfig'
 
 export default {
-  created() {
-    // needs to be specified in login
+  mounted() {
+    this.userId = localStorage.getItem('id')
     this.getUser()
   },
-  mounted() { const userId = localStorage.getItem('id') },
   data() {
     return {
+      userId: '',
       userResponse: {
         id: '',
         firstName: '',
         lastName: '',
         email: '',
-        password: '',
         bsn: '',
         phoneNumber: '',
         birthdate: '',
@@ -45,12 +44,8 @@ export default {
     async getUser() {
       try {
         // Access userId from $route.params object
-        const response = await axios.get(`/users/${userId}`)
-        console.log(response)
-
+        const response = await axios.get(`/users/${this.userId}`)
         const data = response.data
-        console.log(data)
-
         this.userResponse = data // Assign the response data to userResponse
         // Do further processing or handle the response as needed
       } catch (error) {

@@ -71,17 +71,13 @@ import axios from '../axiosConfig';
 
 export default {
   
-  created() {
-    // needs to be specified in login
-    const currentUser = this.getUser();
-    console.log(console.log(currentUser.birthdate));
-  },
-  mounted() {
-    const userId = localStorage.getItem('id')
-    console.log(userId); // Output the value of the 'id' parameter
+  created() {    
+    this.userId = localStorage.getItem('id')
+    this.getUser();
   },
   data() {
     return {
+      userId: '',
       userResponse: {
         id: '',
         firstName: '',
@@ -117,9 +113,7 @@ export default {
   methods: {
     async getUser() {
       try {
-        console.log('clicked');
-        // Test code until login with current logged in user is implemented
-        const response = await axios.get(`/users/${userId}`);
+        const response = await axios.get(`users/${this.userId}`);
         const data = response.data;
 
         this.userResponse = data; // Assign the response data to userResponse
@@ -144,12 +138,13 @@ export default {
         this.userRequest.city = this.userResponse.city;
         this.userRequest.country = this.userResponse.country;
 
-        const response = await axios.put(`/users/updateInformation/${this.userResponse.id}`, this.userRequest);
+        const response = await axios.put(`/users/updateInformation/${this.userId}`, this.userRequest);
         const status = response.status;
         
         if (status === 201) {
           // Success: Information updated
           console.log("Information updated successfully");
+          document.getElementById('saveButton').style.display = 'none';
         } else {
           // Popup error message
           const errormessage = response.data;
@@ -175,7 +170,6 @@ export default {
       location.reload();
 
       document.getElementById('popup').style.display = 'none';
-      document.getElementById('goLogin').style.display = 'none';
     },
     editDataButton(){
       document.getElementById('firstNameInput').disabled = false;

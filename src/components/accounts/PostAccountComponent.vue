@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label for="userId">Select a user: </label>
                 <select class="form-control col-md-6" id="userId" v-model="userId" required>
-                    <option v-for="user in userList" :key="user.id" :value="user.id">{{ user.firstName }}
+                    <option v-for="user in userList" :key="user.id" :value="user.id" :selected="user.id === userId">{{ user.firstName }}
                     </option>
                 </select>
             </div>
@@ -46,7 +46,11 @@
 import axios from '../../axiosConfig';
 export default {
     created() {
+        this.userId = '';
         this.fetchUserList();
+        if (this.$eventBus.userAccountEvent != null) {
+            this.userId = this.$eventBus.userAccountEvent.id;
+        }
     },
     data() {
         return {
@@ -92,6 +96,9 @@ export default {
                     }
                     this.successMessage = '';
                 });
+
+                this.$eventBus.userAccountEvent = null;
+
         },
     },
 };

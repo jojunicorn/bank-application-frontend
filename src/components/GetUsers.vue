@@ -43,13 +43,29 @@
                     <td>{{ user.country }}</td>
                     <td>
                         <button class="btn btn-outline-info" @click="openEditPopup(user)">Edit</button>
-                        <button class="btn btn-outline-danger">Delete</button><br>
+                        <button class="btn btn-outline-danger" @click="openDeletePopup(user.id)">Delete</button><br>
                         <!-- add this create account button to users without account only -->
                         <button class="btn btn-outline-info">Create account</button><br>
                     </td>
                 </tr>
             </tbody>
+            <p id="userError"></p>
         </table>
+    </div>
+</div>
+
+<div class="modal delete-user" id="deleteUserPopup">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteUserTitle"></h5>
+            <button type="button" class="btn-close" @click="closePopup('deleteUserPopup')">X</button>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closePopup('deleteUserPopup')">No</button>
+            <button type="button" class="btn btn-primary" @click="deleteUser()">Yes</button>
+        </div>
+        </div>
     </div>
 </div>
 
@@ -59,7 +75,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="userPopupHeading"></h5>
-        <button type="button" class="btn btn-primary" @click="closePopup"><b>X</b></button>
+        <button type="button" class="btn btn-primary" @click="closePopup('userPopup')"><b>X</b></button>
       </div>
       <div class="modal-body">
         <form class="row g-3 register-form" @submit.prevent="registerUser">
@@ -89,7 +105,7 @@
             </div>
             <div class="col-md-6">
               <label for="birthdate" class="form-label dark">Birthdate</label>
-              <input type="date" class="form-control" id="birthdate" v-model="registerRequest.birthdate" required>
+              <input type="date" class="form-control" id="birthdate" :max="minBirthdate" v-model="registerRequest.birthdate" required>
             </div>
             <div class="col-md-6">
               <label for="country" class="form-label dark">Country</label>
@@ -112,7 +128,7 @@
               <input type="text" class="form-control" id="zipCode" v-model="registerRequest.zipCode" required>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @click="closePopup">Close</button>
+                <button type="button" class="btn btn-secondary" @click="closePopup('userPopup')">Close</button>
                 <button type="submit" id="btnRegisterSave" class="btn btn-primary">Register</button>
                 
             </div>
@@ -122,9 +138,9 @@
   </div>
 </div>
 
-<div id="popup" class="modal error-popup">
+<div id="feedbackPopup" class="modal error-popup">
     <div class="modal-content">
-      <span class="close" @click="closeErrorPopup">&times;</span>
+      <span class="close" @click="closePopup('feedbackPopup')">&times;</span>
       <h2 id="popupHeading">Popup</h2>
       <p id="popupText"></p>
     </div>
@@ -144,7 +160,7 @@ export default {
     data() {
         return {
             temporaryIdSave: null,
-            registeringMessage: '',
+            feedbackMessage: '',
             noAccountChecked: false,
 
             userResponse: {
@@ -178,6 +194,13 @@ export default {
             }
         };
     },
+    computed: {
+        minBirthdate() {
+            const today = new Date();
+            const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+            return minDate.toISOString().slice(0, 10); // Format as yyyy-MM-dd
+        },
+    },
     methods: {
         async getUsers() {
             await axios.get('/users?skip=1')
@@ -187,6 +210,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    document.getElementById('userError').textContent = "unable to get users"
                 });
         
         },
@@ -198,62 +222,76 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                    document.getElementById('userError').textContent = "unable to get users"
                 });
 
-            this.closePopup();
         },
         async registerUser(){
             try{
                 if(this.temporaryIdSave != null){
                     this.editUser()
                 }else{
-
-                        
                     //checking entered data
                     this.checkRegisterData();
-                    if(this.registeringMessage === ''){
-                        
-                        console.log(this.registerRequest);
+                    if(this.feedbackMessage === ''){
                         const response = await axios.post('/users/register', this.registerRequest);
                         const status = JSON.parse(response.status);
-                        //console.log(response);
                         //redirect logic
-                        if (status == 201) {
-                        this.registeringMessage = "";
-                        document.getElementById('popupHeading').style.color = "black";
-                        document.getElementById('popupHeading').textContent = "Register Successful!";
-                        document.getElementById('popupText').textContent = this.registeringMessage;
-                        document.getElementById('popup').style.display = 'block';
-                        //this.$router.push('/home');
+                        if (status == 200) {
+                        this.feedbackMessage = "";
+                        this.openFeedbackPopup("black", "Register Successful!")
                         }else{
-                        this.registeringMessage = "Something went wrong. Please try again later or contact an employee."
+                        this.feedbackMessage = "Something went wrong. Please try again later or contact an employee."
                         }
                     }else{
-                        document.getElementById('popupHeading').textContent = "Something went wront!";
-                        document.getElementById('popupHeading').style.color = "red";
-                        document.getElementById('popupText').textContent = this.registeringMessage;
-                        document.getElementById('popup').style.display = 'block';
+                        this.openFeedbackPopup("red", "Something went wrong!")
                     }
 
-                    this.registeringMessage = '';
+                    this.feedbackMessage = '';
+                    this.closePopup('userPopup');
+                    this.userResponse = '';
+                    this.getUsers();
                 }
             }catch(error){
             console.log(error);
             }
         },
         async editUser(){
-            await axios.put(`/users/updateInformation/${this.temporaryIdSave}`, this.userRequest)
+            await axios.put(`/users/updateInformation/${this.temporaryIdSave}`, this.registerRequest)
                 .then(response => {
-                    console.log(response);
-
+                    this.feedbackMessage = response.data;
+                    this.openFeedbackPopup("black", "Updated!");
                 })
                 .catch(error => {
                     console.log(error);
+                    this.feedbackMessage = error;
+                    this.openFeedbackPopup("black", "Error")
                 });
                 
-                this.temporaryIdSave = null;
-        },
+            this.temporaryIdSave = null;
+            this.closePopup('userPopup');
+            this.userResponse = '';
+            this.registerRequest = '';
+            this.getUsers();
 
+        },
+        async deleteUser(){
+            await axios.delete(`/users/${this.temporaryIdSave}`)
+                .then(response => {
+                    console.log(response);
+                    this.feedbackMessage = response.data;
+                    this.openFeedbackPopup("black", "Success!")
+
+                })
+                .catch(error => {
+                    this.feedbackMessage = error;
+                    this.openFeedbackPopup("red", "Error")
+                });
+            this.closePopup('deleteUserPopup')
+            this.feedbackMessage = '';
+            this.temporaryIdSave = null;
+            this.getUsers();
+        },
         checkBoxUsersWithoutAccount(){
             if (this.noAccountChecked) {
                 this.getUsersWithoutAccount();
@@ -263,7 +301,12 @@ export default {
             }
             
         },
-
+        openFeedbackPopup(color, heading){
+            document.getElementById('popupHeading').style.color = color;
+            document.getElementById('popupHeading').textContent = heading;
+            document.getElementById('popupText').textContent = this.feedbackMessage;
+            document.getElementById('feedbackPopup').style.display = 'block';
+        },
         //open popup for registering
         openRegisterPopup(){
             document.getElementById('btnRegisterSave').textContent = 'Register'
@@ -299,19 +342,24 @@ export default {
             this.registerRequest.country = user.country;
         },
 
-        closePopup() {
-            document.getElementById('userPopup').style.display = 'none';
-            this.temporaryIdSave = null
-        },
-        closeErrorPopup(){
-            document.getElementById('popup').style.display = 'none';
+        openDeletePopup(id){
+            document.getElementById('deleteUserTitle').textContent = 'Are you sure you want to delete user #' + id +'?';
+            document.getElementById('deleteUserPopup').style.display = 'block';
+            this.temporaryIdSave = id;
         },
 
+        closePopup(popupname) {
+            document.getElementById(popupname).style.display = 'none';
+            this.temporaryIdSave = null
+            this.feedbackMessage = "";
+        },
+
+
         checkRegisterData() {
-            this.registeringMessage += registerLogic.passwordCheck(this.registerRequest.password, this.registeringMessage)
-            this.registeringMessage += registerLogic.phoneNumberCheck(this.registerRequest.phoneNumber, this.registeringMessage)
-            this.registeringMessage += registerLogic.birthdateCheck(this.registerRequest.birthdate, this.registeringMessage)
-            this.registeringMessage += registerLogic.addressCheck(this.registerRequest.country, this.registerRequest.city, this.registerRequest.streetName, this.registerRequest.zipCode, this.registeringMessage)
+            this.feedbackMessage += registerLogic.passwordCheck(this.registerRequest.password, this.feedbackMessage)
+            this.feedbackMessage += registerLogic.phoneNumberCheck(this.registerRequest.phoneNumber, this.feedbackMessage)
+            this.feedbackMessage += registerLogic.birthdateCheck(this.registerRequest.birthdate, this.feedbackMessage)
+            this.feedbackMessage += registerLogic.addressCheck(this.registerRequest.country, this.registerRequest.city, this.registerRequest.streetName, this.registerRequest.zipCode, this.feedbackMessage)
         },
     },
 };
@@ -338,6 +386,18 @@ export default {
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.5);
     z-index: 10;
+}
+.delete-user{
+    display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
 }
 .table{
     width: 100%;

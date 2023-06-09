@@ -87,6 +87,7 @@
               class="form-control"
               id="birthdate"
               v-model="registerRequest.birthdate"
+              :max="minBirthdate"
               required
             />
           </div>
@@ -178,7 +179,7 @@ pre {
 
 <script>
 import axios from '../axiosConfig'
-import axiosLogin from 'axios'
+import axiosLogin, { HttpStatusCode } from 'axios'
 import registerLogic from '@/assets/registeringLogic.js';
 
 
@@ -198,6 +199,7 @@ export default {
         errorMessage: '',
         successMessage: ''
       },
+
       registeringMessage: '',
 
       registerRequest: {
@@ -216,7 +218,13 @@ export default {
       }
     }
   },
-
+  computed: {
+    minBirthdate() {
+      const today = new Date();
+      const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+      return minDate.toISOString().slice(0, 10); // Format as yyyy-MM-dd
+    },
+  },
   methods: {
     async login() {
       const loginRequest = {
@@ -252,49 +260,44 @@ export default {
       }
     },
     async registerUser() {
+      this.registeringMessage = "";
       try {
         //checking entered data
         this.checkRegisterData()
         if (this.registeringMessage === '') {
-          //console.log(this.registerRequest);
-          const response = await axios.post('/users', this.registerRequest)
+          const response = await axios.post('/users/register', this.registerRequest)
           const status = JSON.parse(response.status)
-          //console.log(response);
-          //redirect logic
-          if (status == 201) {
-            this.registeringMessage = 'You can log in now.'
-            document.getElementById('popupHeading').style.color = 'black'
-            document.getElementById('popupHeading').textContent = 'Register Successful!'
-            document.getElementById('popupText').textContent = this.registeringMessage
-            document.getElementById('popup').style.display = 'block'
-            document.getElementById('goLogin').style.display = 'block'
-            //this.$router.push('/home');
-          } else {
-            this.registeringMessage =
-              'Something went wrong. Please try again later or contact an employee.'
-          }
+
+          this.registeringMessage = 'You can log in now.'
+          this.openPopup('black', 'Register Successful!', 'block')
+
         } else {
-          document.getElementById('popupHeading').textContent = 'Something went wront!'
-          document.getElementById('popupHeading').style.color = 'red'
-          document.getElementById('popupText').textContent = this.registeringMessage
-          document.getElementById('popup').style.display = 'block'
-          document.getElementById('goLogin').style.display = 'none'
+          this.openPopup('red', 'Something went wrong!', 'none')
         }
 
         this.registeringMessage = ''
       } catch (error) {
-        console.log(error)
+        this.registeringMessage = error.response.data;
+        this.openPopup('red', 'Something went wrong!', 'none')
       }
+    },
+    openPopup(color, heading, goLogin){
+      document.getElementById('popupHeading').textContent = heading
+      document.getElementById('popupHeading').style.color = color
+      document.getElementById('popupText').textContent = this.registeringMessage
+      document.getElementById('goLogin').style.display = goLogin
+      document.getElementById('popup').style.display = 'block'
     },
     closePopup() {
       document.getElementById('popup').style.display = 'none'
       document.getElementById('goLogin').style.display = 'none'
+      this.registeringMessage = "";
     },
     checkRegisterData() {
-      this.registeringMessage += registerLogic.passwordCheck(this.registerRequest.password, this.registeringMessage)
-      this.registeringMessage += registerLogic.phoneNumberCheck(this.registerRequest.phoneNumber, this.registeringMessage)
-      this.registeringMessage += registerLogic.birthdateCheck(this.registerRequest.birthdate, this.registeringMessage)
-      this.registeringMessage += registerLogic.addressCheck(this.registerRequest.country, this.registerRequest.city, this.registerRequest.streetName, this.registerRequest.zipCode, this.registeringMessage)
+      this.registeringMessage = registerLogic.passwordCheck(this.registerRequest.password, this.registeringMessage)
+      this.registeringMessage = registerLogic.phoneNumberCheck(this.registerRequest.phoneNumber, this.registeringMessage)
+      this.registeringMessage = registerLogic.birthdateCheck(this.registerRequest.birthdate, this.registeringMessage)
+      this.registeringMessage = registerLogic.addressCheck(this.registerRequest.country, this.registerRequest.city, this.registerRequest.streetName, this.registerRequest.zipCode, this.registeringMessage)
     },
     reloadPage() {
       location.reload()

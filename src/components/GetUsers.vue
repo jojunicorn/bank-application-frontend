@@ -10,6 +10,8 @@
             </label>
         </div>
         <table class="table table-responsive my-3">
+            <p id="userError" class="user-error"></p>
+
             <thead>
                 <tr>
                     <th>ID</th>
@@ -45,11 +47,10 @@
                         <button class="btn btn-outline-info" @click="openEditPopup(user)">Edit</button>
                         <button class="btn btn-outline-danger" @click="openDeletePopup(user.id)">Delete</button><br>
                         <!-- add this create account button to users without account only -->
-                        <button class="btn btn-outline-info">Create account</button><br>
+                        <button class="btn btn-outline-info" @click="goToCreateAccountForUser(user)">Create account</button><br>
                     </td>
                 </tr>
             </tbody>
-            <p id="userError"></p>
         </table>
     </div>
 </div>
@@ -292,6 +293,11 @@ export default {
             this.temporaryIdSave = null;
             this.getUsers();
         },
+        goToCreateAccountForUser(user){
+            //eventBus.$emit('userEvent', user);
+            this.$eventBus.userAccountEvent = user;
+            this.$router.push({ name: 'createAccount' })
+        },
         checkBoxUsersWithoutAccount(){
             if (this.noAccountChecked) {
                 this.getUsersWithoutAccount();
@@ -407,5 +413,8 @@ export default {
 }
 .no-account-radio{
     margin-top: 2%
+}
+.user-error{
+    color: red;
 }
 </style>

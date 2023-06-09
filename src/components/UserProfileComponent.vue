@@ -144,6 +144,7 @@ export default {
         if (status === 201) {
           // Success: Information updated
           console.log("Information updated successfully");
+          document.getElementById('saveButton').style.display = 'none';
         } else {
           // Popup error message
           const errormessage = response.data;
@@ -169,7 +170,6 @@ export default {
       location.reload();
 
       document.getElementById('popup').style.display = 'none';
-      document.getElementById('goLogin').style.display = 'none';
     },
     editDataButton(){
       document.getElementById('firstNameInput').disabled = false;

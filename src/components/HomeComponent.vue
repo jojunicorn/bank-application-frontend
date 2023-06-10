@@ -1,17 +1,11 @@
 <template>
   <div class="body">
     <h1 class="main-heading">Bank</h1>
-    <a href="/userLogin"
+    <router-link to="/userLogin"
       ><button type="button" class="btn btn-secondary btn-lg login-button">
         Customer Login
-      </button></a
+      </button></router-link
     >
-    <a href="/employeeLogin"
-      ><button type="button" class="btn btn-secondary btn-lg login-button">
-        Employee Login
-      </button></a
-    >
-    <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
   </div>
 </template>
 

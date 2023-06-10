@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Login from '../components/UserLoginComponent.vue'
+import Unauthorized from '../components/UnauthorisedComponent.vue'
 const userId = localStorage.getItem('id')
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,15 +11,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-    { path: '/login', name: 'login', component: Login },
-    {
-      path: '/employeeLogin',
-      name: 'employeeLogin',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/EmployeeLoginView.vue')
-    },
+    { path: '/userLogin', name: 'login', component: Login },
     {
       path: `/user/${userId}`,
       name: 'userHome',
@@ -78,6 +71,15 @@ const router = createRouter({
       path: '/accounts/myAccount/:iban',
       name: 'overviewAccount',
       component: () => import('../views/accounts/OverviewAccountsView.vue')
+    },
+    {
+      path: '/unauthorized',
+      name: 'Unauthorized',
+      component: Unauthorized
+    },
+    {
+      path: '/:catchAll(.*)',
+      redirect: '/unauthorized' // Redirect any unmatched path to the Unauthorised component or view
     }
   ]
 })

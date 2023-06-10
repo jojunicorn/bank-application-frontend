@@ -6,12 +6,12 @@
         Customer Login
       </button></a
     >
-    <a href="/employeeLogin"
+    <!-- <a href="/employeeLogin"
       ><button type="button" class="btn btn-secondary btn-lg login-button">
         Employee Login
       </button></a
     >
-    <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
+    <router-link to="/login" class="nav-link" active-class="active">Login</router-link> -->
   </div>
 </template>
 

@@ -3,7 +3,7 @@
         <h2>Update account absolute limit</h2>
         <div class="form-group">
             <label for="iban">IBAN: </label>
-            <input type="text" id="iban" class="form-control col-md-6" v-model="iban" placeholder="Enter IBAN" />
+            <input type="text" id="iban" class="form-control col-md-6" v-model="iban" />
         </div>
         <div class="form-group">
             <label for="absoluteLimit">Account Absolute limit: </label>
@@ -19,6 +19,12 @@
 <script>
 import axios from '../../axiosConfig';
 export default {
+    created() {
+        this.iban = '';
+        if (this.$eventBus.accountUpdateLimitEvent && this.$eventBus.accountUpdateLimitEvent.iban) {
+            this.iban = this.$eventBus.accountUpdateLimitEvent.iban; // Set the iban from the event bus
+        }
+    },
     data() {
         return {
             iban: '',

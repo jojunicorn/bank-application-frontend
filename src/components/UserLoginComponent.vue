@@ -1,6 +1,6 @@
 <template>
   <div class="login-body">
-    <h1 class="bank-heading">Banking<br>Application</h1>
+    <h1 class="bank-heading">Banking<br />Application</h1>
 
     <div class="login-main">
       <input class="login-input" type="checkbox" id="chk" aria-hidden="true" />
@@ -8,8 +8,24 @@
       <div class="signup">
         <label class="login-label" for="chk" aria-hidden="true">Login</label>
         <form @submit.prevent="login" id="loginForm">
-          <input v-model="email" id="inputEmail" type="email" class="login-input" name="email" placeholder="Email" required/>
-          <input v-model="password" type="password" class="login-input" id="inputPassword" name="pswd" placeholder="Password" required/>
+          <input
+            v-model="email"
+            id="inputEmail"
+            type="email"
+            class="login-input"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <input
+            v-model="password"
+            type="password"
+            class="login-input"
+            id="inputPassword"
+            name="pswd"
+            placeholder="Password"
+            required
+          />
           <button type="submit" class="login-button">Login</button>
         </form>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -165,23 +181,26 @@
 pre {
   white-space: pre-wrap;
 }
-.bank-heading{
+.bank-heading {
   font-size: 5em;
   color: white;
   margin-top: -30%;
-  margin-left:-10%;
+  margin-left: -10%;
   z-index: 2;
 }
-.login-main{
-  margin-left: 3%
+.login-main {
+  margin-left: 3%;
+}
+
+.error-message {
+  color: white;
 }
 </style>
 
 <script>
 import axios from '../axiosConfig'
 import axiosLogin, { HttpStatusCode } from 'axios'
-import registerLogic from '@/assets/registeringLogic.js';
-
+import registerLogic from '@/assets/registeringLogic.js'
 
 export default {
   name: 'userLogin',
@@ -214,17 +233,28 @@ export default {
         houseNumber: '',
         zipCode: '',
         city: '',
-        country: '',
+        country: ''
       }
     }
   },
+
   computed: {
     minBirthdate() {
-      const today = new Date();
-      const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-      return minDate.toISOString().slice(0, 10); // Format as yyyy-MM-dd
-    },
+      const today = new Date()
+      const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate())
+      return minDate.toISOString().slice(0, 10) // Format as yyyy-MM-dd
+    }
   },
+
+  created() {
+    // Check if the user is already logged in
+    const userId = localStorage.getItem('id')
+    if (userId) {
+      // Redirect the user to the userHome route with the user ID as a parameter
+      this.$router.push({ name: 'userHome', params: { id: userId } })
+    }
+  },
+
   methods: {
     async login() {
       const loginRequest = {
@@ -260,7 +290,7 @@ export default {
       }
     },
     async registerUser() {
-      this.registeringMessage = "";
+      this.registeringMessage = ''
       try {
         //checking entered data
         this.checkRegisterData()
@@ -270,18 +300,17 @@ export default {
 
           this.registeringMessage = 'You can log in now.'
           this.openPopup('black', 'Register Successful!', 'block')
-
         } else {
           this.openPopup('red', 'Something went wrong!', 'none')
         }
 
         this.registeringMessage = ''
       } catch (error) {
-        this.registeringMessage = error.response.data;
+        this.registeringMessage = error.response.data
         this.openPopup('red', 'Something went wrong!', 'none')
       }
     },
-    openPopup(color, heading, goLogin){
+    openPopup(color, heading, goLogin) {
       document.getElementById('popupHeading').textContent = heading
       document.getElementById('popupHeading').style.color = color
       document.getElementById('popupText').textContent = this.registeringMessage
@@ -291,13 +320,28 @@ export default {
     closePopup() {
       document.getElementById('popup').style.display = 'none'
       document.getElementById('goLogin').style.display = 'none'
-      this.registeringMessage = "";
+      this.registeringMessage = ''
     },
     checkRegisterData() {
-      this.registeringMessage = registerLogic.passwordCheck(this.registerRequest.password, this.registeringMessage)
-      this.registeringMessage = registerLogic.phoneNumberCheck(this.registerRequest.phoneNumber, this.registeringMessage)
-      this.registeringMessage = registerLogic.birthdateCheck(this.registerRequest.birthdate, this.registeringMessage)
-      this.registeringMessage = registerLogic.addressCheck(this.registerRequest.country, this.registerRequest.city, this.registerRequest.streetName, this.registerRequest.zipCode, this.registeringMessage)
+      this.registeringMessage = registerLogic.passwordCheck(
+        this.registerRequest.password,
+        this.registeringMessage
+      )
+      this.registeringMessage = registerLogic.phoneNumberCheck(
+        this.registerRequest.phoneNumber,
+        this.registeringMessage
+      )
+      this.registeringMessage = registerLogic.birthdateCheck(
+        this.registerRequest.birthdate,
+        this.registeringMessage
+      )
+      this.registeringMessage = registerLogic.addressCheck(
+        this.registerRequest.country,
+        this.registerRequest.city,
+        this.registerRequest.streetName,
+        this.registerRequest.zipCode,
+        this.registeringMessage
+      )
     },
     reloadPage() {
       location.reload()

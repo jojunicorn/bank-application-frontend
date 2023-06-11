@@ -64,7 +64,7 @@ export default {
     },
     methods: {
         async fetchUserList() {
-            await axios.get('/users')
+            await axios.get('/users?skip=1')
                 .then(response => {
                     console.log(response.data);
                     this.userList = response.data;

@@ -10,10 +10,10 @@
         <ul class="navbar-nav">
           <!-- fir customer -->
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" :href="'/user/' + userId">Home</a>
+            <a class="nav-link active" aria-current="page" :href="'/dashboard'">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" :href="'/user/' + this.userId + '/atm'">ATM</a>
+            <a class="nav-link" :href="'/atm'">ATM</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/accounts/getIbanByCustomerName">Find accounts/Start transaction</a>

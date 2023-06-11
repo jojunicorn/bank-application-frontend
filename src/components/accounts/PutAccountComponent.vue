@@ -3,7 +3,7 @@
         <h2>Update account status</h2>
         <div class="form-group">
             <label for="iban">IBAN: </label>
-            <input type="text" id="iban" class="form-control col-md-6" v-model="iban" placeholder="Enter IBAN" />
+            <input type="text" id="iban" class="form-control col-md-6" v-model="iban" />
         </div>
         <div class="form-group">
             <label for="status">Account Status: </label>
@@ -21,6 +21,12 @@
 <script>
 import axios from '../../axiosConfig';
 export default {
+    created() {
+        this.iban = '';
+        if (this.$eventBus.accountUpdateEvent && this.$eventBus.accountUpdateEvent.iban) {
+            this.iban = this.$eventBus.accountUpdateEvent.iban; // Set the iban from the event bus
+        }
+    },
     data() {
         return {
             iban: '',

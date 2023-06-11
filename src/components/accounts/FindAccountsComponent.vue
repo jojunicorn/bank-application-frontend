@@ -55,7 +55,7 @@ export default {
                     if (error.response && error.response.data) {
                         this.errorMessage = error.response.data;
                     } else {
-                        this.errorMessage = 'Failed to get accounts for the customer with name: ' + `${firstName}`;
+                        this.errorMessage = 'Customer with name "' + `${firstName}` + '" does not have a bank account.';
                     }
                     this.successMessage = '';
                 });

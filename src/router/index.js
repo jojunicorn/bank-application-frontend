@@ -20,12 +20,12 @@ const router = createRouter({
       component: () => import('../views/EmployeeLoginView.vue')
     },
     {
-      path: `/user/${userId}`,
+      path: `/dashboard`,
       name: 'userHome',
       component: () => import('../views/UserHomeView.vue')
     },
     {
-      path: `/user/:userId/atm`,
+      path: `/atm`,
       name: 'userATM',
       component: () => import('../views/UserATMView.vue')
     },
@@ -75,7 +75,7 @@ const router = createRouter({
       component: () => import('../views/accounts/PutAccountView.vue')
     },
     {
-      path: '/accounts/myAccount/:iban',
+      path: '/accounts/myAccount',
       name: 'overviewAccount',
       component: () => import('../views/accounts/OverviewAccountsView.vue')
     }

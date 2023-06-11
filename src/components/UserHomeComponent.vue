@@ -47,6 +47,7 @@ export default {
         const response = await axios.get(`/users/${this.userId}`)
         const data = response.data
         this.userResponse = data // Assign the response data to userResponse
+        localStorage.setItem('role', data.role) //eg. ROLE_EMPLOYEE
         // Do further processing or handle the response as needed
       } catch (error) {
         console.log(error)
@@ -54,7 +55,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>

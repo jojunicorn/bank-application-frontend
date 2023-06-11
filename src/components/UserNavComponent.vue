@@ -95,10 +95,15 @@
 </template>
 <script>
 export default {
+  props: ['role'],
   data() {
     return {
-      userId: localStorage.getItem('id'),
-      role: localStorage.getItem('role') // Get the role from localStorage
+      userId: localStorage.getItem('id')
+    }
+  },
+  computed: {
+    role() {
+      return this.$props.role || localStorage.getItem('role')
     }
   },
   methods: {

@@ -19,6 +19,7 @@
                 <tr>
                     <th>IBAN</th>
                     <th>Customer's name</th>
+                    <th>Account Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>

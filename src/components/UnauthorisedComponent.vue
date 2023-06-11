@@ -41,14 +41,14 @@ body {
   box-sizing: border-box;
   height: 100%;
   background-color: #000000;
-  background-image: radial-gradient(#11581e, #041607),
+  background-image: radial-gradient(#a612c4, #041607),
     url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
   background-repeat: no-repeat;
   background-size: cover;
   font-family: 'Inconsolata', Helvetica, sans-serif;
   font-size: 1.5rem;
-  color: rgba(128, 255, 128, 0.8);
-  text-shadow: 0 0 1ex rgba(51, 255, 51, 1), 0 0 2px rgba(255, 255, 255, 0.8);
+  color: white;
+  text-shadow: 0 0 1ex rgb(128, 14, 173), 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
 .noise {
@@ -93,7 +93,7 @@ body {
     0deg,
     transparent 0%,
     rgba(32, 128, 32, 0.2) 2%,
-    rgba(32, 128, 32, 0.8) 3%,
+    rgba(140, 71, 206, 0.8) 3%,
     rgba(32, 128, 32, 0.2) 3%,
     transparent 100%
   );

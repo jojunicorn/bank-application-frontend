@@ -21,6 +21,7 @@
                 <tr v-for="account in accounts" :key="account.id">
                     <td>{{ account.iban }}</td>
                     <td>{{ account.user }}</td>
+                    <td>{{ account.accountType }}</td>
                     <td><button>Create Transaction</button></td>
                 </tr>
             </tbody>

@@ -75,7 +75,7 @@ const router = createRouter({
       component: () => import('../views/accounts/PutAccountView.vue')
     },
     {
-      path: '/accounts/myAccount/:iban',
+      path: '/accounts/myAccount',
       name: 'overviewAccount',
       component: () => import('../views/accounts/OverviewAccountsView.vue')
     }

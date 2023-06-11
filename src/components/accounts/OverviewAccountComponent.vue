@@ -29,9 +29,14 @@
 <script>
 import axios from '../../axiosConfig';
 export default {
+    created() {
+        this.iban = '';
+        if (this.$eventBus.accountUpdateEvent && this.$eventBus.accountUpdateEvent.iban) {
+            this.iban = this.$eventBus.accountUpdateEvent.iban; // Set the iban from the event bus
+        }
+    },
     mounted() {
-        const iban = this.$route.params.iban;
-        this.fetchMyAccount(iban);
+        this.fetchMyAccount(this.iban);
     },
     data() {
         return {
@@ -42,7 +47,7 @@ export default {
         async fetchMyAccount(iban) {
             try {
                 const response = await axios
-                    .get(`/accounts/${iban}`);
+                    .get(`/accounts/${this.iban}`);
 
                 const account = response.data;
                 this.account = account;

@@ -42,19 +42,16 @@
             <td>{{ account.absoluteLimit }}</td>
             <td>{{ account.createdAt }}</td>
             <td>{{ account.accountType }}</td>
-            <td :class="{ 'success-message': account.accountStatus === 'ACTIVE', 'error-message': account.accountStatus === 'INACTIVE' }">
+            <td
+              :class="{ 'success-message': account.accountStatus === 'ACTIVE', 'error-message': account.accountStatus === 'INACTIVE' }">
               {{ account.accountStatus }}
             </td>
             <td>{{ account.user.id }}</td>
             <td>{{ account.user.firstName }} {{ account.user.lastName }}</td>
             <td>
               <div class="btn-group" role="group">
-                <a @click="goToEditStatus(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update
-                  account
-                  status</a>
-                <a @click="goToEditLimit(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update
-                  absolute
-                  limit</a>
+                <a @click="goToEditStatus(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update account status</a>
+                <a @click="goToEditLimit(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update absolute limit</a>
               </div>
             </td>
           </tr>

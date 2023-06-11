@@ -25,9 +25,7 @@
             >
           </li>
           <li class="nav-item" v-if="role === 'ROLE_CUSTOMER' || role === 'ROLE_EMPLOYEE'">
-            <router-link :to="'/user/atm'" class="nav-link" active-class="active" exact
-              >ATM</router-link
-            >
+            <router-link :to="'/atm'" class="nav-link" active-class="active" exact>ATM</router-link>
           </li>
 
           <li class="nav-item" v-if="role === 'ROLE_CUSTOMER' || role === 'ROLE_EMPLOYEE'">

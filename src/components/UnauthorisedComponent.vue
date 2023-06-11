@@ -9,7 +9,7 @@
         unavailable.
       </p>
       <p class="output">
-        Please try to <button @click="goBack">go back</button> or
+        Please
         <button @click="goHome">return to the homepage</button>.
       </p>
       <p class="output">Good luck.</p>
@@ -20,9 +20,6 @@
 <script>
 export default {
   methods: {
-    goBack() {
-      this.$router.go(-1) // Navigate back to the previous page
-    },
     goHome() {
       this.$router.push({ name: 'userHome' })
     }

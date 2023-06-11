@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import Login from '../components/UserLoginComponent.vue'
 import Unauthorised from '../components/UnauthorisedComponent.vue'
 const userId = localStorage.getItem('id')
@@ -8,17 +7,16 @@ const router = createRouter({
   routes: [
     {
       path: '',
-      name: 'home',
-      component: HomeView
+      name: 'login',
+      component: Login
     },
-    { path: '/userLogin', name: 'login', component: Login },
     {
       path: `/dashboard`,
       name: 'userHome',
       component: () => import('../views/UserHomeView.vue')
     },
     {
-      path: `/user/atm`,
+      path: `/atm`,
       name: 'userATM',
       component: () => import('../views/UserATMView.vue')
     },

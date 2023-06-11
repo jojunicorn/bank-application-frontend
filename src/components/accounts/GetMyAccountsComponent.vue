@@ -11,8 +11,8 @@
                     <div class="row">
                         <div class="card limit">
                             <div class="card-body">
-                                <h4 class="card-title text-center"> Account IBAN: <a
-                                        :href="`/accounts/myAccount/${account.iban}`">{{ account.iban }}</a></h4>
+                                <h4 class="card-title text-center"> Account IBAN: <a @click="goToEditStatus(account.iban)"
+                                        target="_blank" class="btn btn-primary">{{ account.iban }}</a></h4>
                                 <h5 class="card-title"> Account Type: {{ account.accountType }}</h5>
                                 <h5 class="card-subtitle"> Account Balance: &euro; {{ account.balance }}</h5>
                                 <p class="card-text"> Absolute limit: &euro; {{ account.absoluteLimit }}</p>
@@ -54,6 +54,10 @@ export default {
                     console.error(`Failed to get my accounts for user with id ${userId}: `, error);
                     this.loading = false;
                 });
+        },
+        goToEditStatus(iban) {
+            this.$eventBus.accountUpdateEvent = { iban: iban };
+            this.$router.push({ name: 'overviewAccount' });
         },
     },
 };

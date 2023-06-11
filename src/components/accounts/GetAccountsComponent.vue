@@ -42,7 +42,9 @@
             <td>{{ account.absoluteLimit }}</td>
             <td>{{ account.createdAt }}</td>
             <td>{{ account.accountType }}</td>
-            <td>{{ account.accountStatus }}</td>
+            <td :class="{ 'success-message': account.accountStatus === 'ACTIVE', 'error-message': account.accountStatus === 'INACTIVE' }">
+              {{ account.accountStatus }}
+            </td>
             <td>{{ account.user.id }}</td>
             <td>{{ account.user.firstName }} {{ account.user.lastName }}</td>
             <td>

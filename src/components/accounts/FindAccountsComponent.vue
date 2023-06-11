@@ -28,7 +28,7 @@
                     <td>{{ account.iban }}</td>
                     <td>{{ account.user }}</td>
                     <td>{{ account.accountType }}</td>
-                    <td><button>Create Transaction</button></td>
+                    <td><a href='/user/transactions' class="btn btn-primary">Create Transaction</a></td>
                 </tr>
             </tbody>
         </table>

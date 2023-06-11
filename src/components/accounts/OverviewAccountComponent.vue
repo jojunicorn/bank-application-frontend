@@ -4,7 +4,7 @@
         <hr style="border: solid 1px black">
 
         <ul v-if="account" class="list-group text-center">
-            <li class="list-group-item active">Iban: {{ account.iban }}</li>
+            <li class="list-group-item active">IBAN: {{ account.iban }}</li>
             <li class="list-group-item">Name: {{ account.user.firstName }} {{ account.user.lastName }}</li>
             <li class="list-group-item active">Balance: &euro; {{ account.balance }}</li>
         </ul>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="ml-3 mt-3 text-center">
-        <button class="btn btn-primary">New Transfer</button>
+        <a href='/user/transactions' class="btn btn-primary">New Transfer</a>
     </div>
 
     <p class="ml-3 mt-3 text-center">

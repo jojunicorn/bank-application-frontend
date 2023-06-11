@@ -20,6 +20,7 @@
 
 <script>
 import axios from '../../axiosConfig';
+
 export default {
     created() {
         this.iban = '';
@@ -44,21 +45,25 @@ export default {
                 accountStatus: accountStatus,
             };
 
-            await axios
-                .put(`/accounts/accountStatus/${iban}`, requestData)
-                .then(response => {
-                    this.successMessage = response.data;
-                    this.errorMessage = '';
-                    console.log("Status updated", response.data);
-                })
-                .catch(error => {
-                    if (error.response && error.response.data) {
-                        this.errorMessage = error.response.data;
-                    } else {
-                        console.error(`Failed to update account status: `, error);
-                    }
-                    this.successMessage = '';
-                });
+            try {
+                const response = await axios.put(`/accounts/accountStatus/${iban}`, requestData);
+                this.successMessage = response.data;
+                this.errorMessage = '';
+                console.log("Status updated", response.data);
+
+                setTimeout(() => {
+                    // Navigate to another page after 5 seconds
+                    this.$router.push('/accounts');
+                }, 1000); // Delay in milliseconds (5 seconds)
+
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    this.errorMessage = error.response.data;
+                } else {
+                    console.error(`Failed to update account status: `, error);
+                }
+                this.successMessage = '';
+            }
         },
     },
 };

@@ -1,48 +1,55 @@
 <template>
   <div class="container">
-    <form class="row g-3">
-      <div class="form-group col-12">
-        <label for="userInput">User:</label>
-        <input type="text" class="form-control" id="userInput" placeholder="Enter user" />
+    <div class="radio-tile-group">
+      <div class="input-container">
+        <input id="current" class="radio-button" type="radio" name="radio" />
+        <div class="radio-tile">
+          <label for="current" class="radio-tile-label">Current</label>
+          <div class="row card-info">
+            <label class="col text-left font-weight-bold">Balance</label>
+            <div class="col text-right">
+              <label for="balance">0.00</label>
+              <label for="currency">&euro;</label>
+            </div>
+          </div>
+          <div class="row card-info">
+            <label class="col text-left font-weight-bold">Account holder</label>
+            <label class="col text-right" for="name">Alba Placeres</label>
+          </div>
+          <div class="row card-info">
+            <label class="col text-left font-weight-bold">IBAN</label>
+            <label class="col text-right" for="iban">31231657543</label>
+          </div>
+        </div>
       </div>
-      <div class="form-group col-md-6">
-        <label for="startDateInput">Start Date:</label>
-        <input type="date" class="form-control" id="startDateInput" />
+
+      <div class="input-container">
+        <input id="savings" class="radio-button" type="radio" name="radio" />
+        <div class="radio-tile">
+          <label for="savings" class="radio-tile-label">Savings</label>
+          <div class="row card-info">
+            <label class="col text-left font-weight-bold">Balance</label>
+            <div class="col text-right">
+              <label for="balance">0.00</label>
+              <label for="currency">&euro;</label>
+            </div>
+          </div>
+          <div class="row card-info">
+            <label class="col text-left font-weight-bold">Account holder</label>
+            <label class="col text-right" for="name">Alba Placeres</label>
+          </div>
+          <div class="row card-info">
+            <label class="col text-left font-weight-bold">IBAN</label>
+            <label class="col text-right" for="iban">31231657543</label>
+          </div>
+        </div>
       </div>
-      <div class="form-group col-md-6">
-        <label for="endDateInput">End Date:</label>
-        <input type="date" class="form-control" id="endDateInput" />
-      </div>
-      <div class="form-group col-md-3">
-        <label for="amountLowerInput">Amount Lower than:</label>
-        <input
-          type="number"
-          class="form-control"
-          id="amountLowerInput"
-          placeholder="Enter amount"
-        />
-      </div>
-      <div class="form-group col-md-3">
-        <label for="amountHigherInput">Amount Higher than:</label>
-        <input
-          type="number"
-          class="form-control"
-          id="amountHigherInput"
-          placeholder="Enter amount"
-        />
-      </div>
-      <div class="form-group col-md-3">
-        <label for="amountEqualsInput">Amount Equals:</label>
-        <input
-          type="number"
-          class="form-control"
-          id="amountEqualsInput"
-          placeholder="Enter amount"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary col-12">Filter</button>
-    </form>
+    </div>
   </div>
 </template>
 
 <script></script>
+
+<style>
+@import '../assets/transaction.css';
+</style>

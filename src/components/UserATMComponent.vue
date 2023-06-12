@@ -43,13 +43,14 @@ import axios from '../axiosConfig';
 
 export default {
   mounted() {
-    const userId = localStorage.getItem('id');
-    this.getCurrentAccount(userId);
+    this.userId = localStorage.getItem('id');
+    this.getCurrentAccount();
     console.log(this.currentAccount)
   },
   data() {
   
     return {
+      userId: '',
       amount: 0,
       showDeposit: false,
       showWithdrawal: false,
@@ -66,9 +67,9 @@ export default {
     }
   },
   methods: {
-    async getCurrentAccount(userId) {
+    async getCurrentAccount() {
       try {
-        const response = await axios.get(`/accounts/myAccounts/${userId}`);
+        const response = await axios.get(`/accounts/myAccounts/${this.userId}`);
         this.accounts = response.data;
         console.log(this.accounts);
         
@@ -79,7 +80,7 @@ export default {
           }
         });
       } catch (error) {
-        console.error(`Failed to get my accounts for user with id ${userId}: `, error);
+        console.error(`Failed to get my accounts for user with id ${this.userId}: `, error);
       }
     },
     async makeDeposit(){
@@ -93,6 +94,7 @@ export default {
           console.log(this.transactionRequest)
           const response = await axios.post('/transactions/atm/deposit', this.transactionRequest);
           this.amount = 0
+          this.getCurrentAccount()
         }
       }catch(error){
         this.errorMessage = error.response.data;
@@ -110,6 +112,8 @@ export default {
           console.log(this.transactionRequest)
           const response = await axios.post('/transactions/atm/withdrawal', this.transactionRequest);
           this.amount = 0
+          this.getCurrentAccount()
+
         }
       }catch(error){
         this.errorMessage = error.response.data;

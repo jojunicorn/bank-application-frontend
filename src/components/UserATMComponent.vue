@@ -29,19 +29,17 @@
 
 <script>
 export default {
-    data() {
+  data() {
     return {
-        amount: null,
-        showDeposit: false,
-        showWithdrawal: false
+      amount: null,
+      showDeposit: false,
+      showWithdrawal: false
     }
-    },
-    methods: {
-
-    }
+  },
+  methods: {}
 }
 </script>
 
 <style>
-@import '../assets/userAtm.css';
+@import '../assets/userATM.css';
 </style>

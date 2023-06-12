@@ -15,14 +15,8 @@
 
         <hr style="border: solid 1px black">
     </div>
-
-    <div class="ml-3 mt-3 text-center">
-        <a href='/user/transactions' class="btn btn-primary">New Transfer</a>
-    </div>
-
     <p class="ml-3 mt-3 text-center">
         Transaction History
-        <!-- add alba's part -->
         <UserTransactionHistoryComponent></UserTransactionHistoryComponent>
     </p>
 </template>

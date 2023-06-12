@@ -7,7 +7,7 @@
         </ul>
         <ul v-else-if="accounts.length >= 0" class="inline-list">
             <li v-for="account in accounts" :key="account.id">
-                <div class="container limits">
+                <div class="container limits text-white">
                     <div class="row">
                         <div class="card limit">
                             <div class="card-body">

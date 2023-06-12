@@ -63,7 +63,7 @@ const router = createRouter({
     {
       path: '/accounts/absoluteLimit',
       name: 'updateAbsoluteLimit',
-      component: () => import('../views/accounts/PutAccountView.vue')
+      component: () => import('../views/accounts/UpdateAccountView.vue')
     },
     {
       path: '/accounts/myAccount',

@@ -5,7 +5,8 @@
             <div class="form-group">
                 <label for="userId">Select a user: </label>
                 <select class="form-control col-md-6" id="userId" v-model="userId" required>
-                    <option v-for="user in userList" :key="user.id" :value="user.id" :selected="user.id === userId">{{ user.firstName }}
+                    <option v-for="user in userList" :key="user.id" :value="user.id" :selected="user.id === userId">{{
+                        user.firstName }}
                     </option>
                 </select>
             </div>
@@ -64,15 +65,13 @@ export default {
     },
     methods: {
         async fetchUserList() {
-            await axios.get('/users?skip=1')
-                .then(response => {
-                    console.log(response.data);
-                    this.userList = response.data;
-                })
-                .catch(error => {
-                    this.errorMessage = 'Failed to fetch user list.';
-                    this.successMessage = '';
-                });
+            try {
+                const response = await axios.get('/users?skip=1');
+                this.userList = response.data;
+            } catch (error) {
+                this.errorMessage = 'Failed to fetch user list.';
+                this.successMessage = '';
+            }
         },
         async createAccount() {
             const accountRequest = {
@@ -83,22 +82,25 @@ export default {
                 accountStatus: this.accountStatus,
             };
 
-            await axios.post('/accounts', accountRequest)
-                .then(response => {
-                    this.successMessage = response.data;
-                    this.errorMessage = '';
-                })
-                .catch(error => {
-                    if (error.response && error.response.data) {
-                        this.errorMessage = error.response.data;
-                    } else {
-                        this.errorMessage = 'An unexpected error occurred.';
-                    }
-                    this.successMessage = '';
-                });
+            try {
+                const response = await axios.post('/accounts', accountRequest);
+                this.successMessage = response.data;
+                this.errorMessage = '';
 
-                this.$eventBus.userAccountEvent = null;
+                setTimeout(() => {
+                    // Navigate to the account overview page after 5 seconds
+                    this.$router.push('/accounts');
+                }, 1000); // Delay in milliseconds (5 seconds)
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    this.errorMessage = error.response.data;
+                } else {
+                    this.errorMessage = 'An unexpected error occurred.';
+                }
+                this.successMessage = '';
+            }
 
+            this.$eventBus.userAccountEvent = null;
         },
     },
 };

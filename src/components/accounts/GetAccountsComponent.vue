@@ -11,14 +11,14 @@
             <button @click="fetchAccounts" class="btn btn-primary">Search account</button>
           </div>
 
-          <div class="ml-auto mr-5">
+          <div class="ml-5 pl-5 mr-5">
             <a href="/accountsCreate" class="btn btn-success">Create new account</a>
           </div>
         </div>
       </div>
     </div>
     <h2>Bank Accounts</h2>
-    <div class="table-responsive">
+    <div class="table table-responsive">
       <table class="table table-bordered table-striped my-3">
         <thead>
           <tr>
@@ -31,7 +31,7 @@
             <th>Account Status</th>
             <th>Account Holder ID</th>
             <th>Account Holder</th>
-            <th>Actions</th>
+            <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -50,8 +50,10 @@
             <td>{{ account.user.firstName }} {{ account.user.lastName }}</td>
             <td>
               <div class="btn-group" role="group">
-                <a @click="goToEditStatus(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update account status</a>
-                <a @click="goToEditLimit(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update absolute limit</a>
+                <a @click="goToEditStatus(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update account
+                  status</a>
+                <a @click="goToEditLimit(account.iban)" target="_blank" class="btn btn-warning mt-3 mr-3">Update absolute
+                  limit</a>
               </div>
             </td>
           </tr>

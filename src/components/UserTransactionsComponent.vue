@@ -8,7 +8,7 @@
           {{ account.iban }} ({{account.accountType}})
         </option>
       </select>
-      <span>Balance: &euro; {{selectedAccountBalance}}</span>
+      <span>Balance: &euro; {{selectedAccountBalance.toFixed(2)}}</span>
       <label class="my-2">Amount <small>*required</small></label>
       <input type="number" step="0.01" min="0" required />
       <label class="my-2">Account to</label>

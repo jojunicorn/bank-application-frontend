@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'https://bankapi-urjj.onrender.com/'
+  baseURL: 'https://bankapi-urjj.onrender.com'
 })
 
 // Add request interceptor

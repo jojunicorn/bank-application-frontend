@@ -35,12 +35,11 @@ export default {
   methods: {
     async getUser() {
       try {
-        // Access userId from $route.params object
         const response = await axios.get(`/users/${this.userId}`)
         const data = response.data
-        this.userResponse = data // Assign the response data to userResponse
+        this.userResponse = data
         localStorage.setItem('role', data.role) //eg. ROLE_EMPLOYEE
-        // Do further processing or handle the response as needed
+        this.$emit('role-updated', data.role)
       } catch (error) {
         console.log(error)
       }

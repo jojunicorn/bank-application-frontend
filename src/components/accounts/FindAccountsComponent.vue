@@ -13,26 +13,28 @@
       <button @click="searchAccounts" class="btn btn-primary mt-3">Search</button>
     </div>
 
-    <h2>Results</h2>
-    <table class="table table-responsive my-3">
-      <thead>
-        <tr>
-          <th>IBAN</th>
-          <th>Customer's name</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="account in accounts" :key="account.id">
-          <td>{{ account.iban }}</td>
-          <td>{{ account.user }}</td>
-          <td><a href="">Create Transaction</a></td>
-        </tr>
-      </tbody>
-    </table>
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-    <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
-  </div>
+        <h2>Results</h2>
+        <table class="table table-responsive my-3">
+            <thead>
+                <tr>
+                    <th>IBAN</th>
+                    <th>Customer's name</th>
+                    <th>Account Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="account in accounts" :key="account.id">
+                    <td>{{ account.iban }}</td>
+                    <td>{{ account.user }}</td>
+                    <td>{{ account.accountType }}</td>
+                    <td><a href='/user/transactions' class="btn btn-primary">Create Transaction</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+    </div>
 </template>
 
 <script>

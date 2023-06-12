@@ -9,7 +9,3 @@ import FindAccountsComponent from '../../components/accounts/FindAccountsCompone
         <FindAccountsComponent />
     </main>
 </template>
-
-<!-- http://localhost:5173/accounts/getIbanByCustomerName -->
-
-<!-- available for ANYONE -->

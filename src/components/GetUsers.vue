@@ -125,12 +125,12 @@
               <input type="text" class="form-control" id="zipCode" v-model="registerRequest.zipCode" required>
             </div>
             <div class="col-md-6">
-              <label for="city" class="form-label dark">Daily Limit</label>
-              <input type="text" class="form-control" id="city" v-model="userResponse.dailyLimit" required>
+              <label for="city" id="lblDailyLimit" class="form-label dark">Daily Limit</label>
+              <input type="text" id="dailyLimit" class="form-control" v-model="userResponse.dailyLimit" required>
             </div>
             <div class="col-md-6">
-              <label for="zipCode" class="form-label dark">Transaction Limit</label>
-              <input type="text" class="form-control" id="zipCode" v-model="userResponse.transactionLimit" required>
+              <label for="zipCode" id="lblTransactionLimit" class="form-label dark">Transaction Limit</label>
+              <input type="text" class="form-control" id="transactionLimit" v-model="userResponse.transactionLimit" required>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="closePopup('userPopup')">Close</button>
@@ -352,6 +352,11 @@ export default {
             document.getElementById('userPopup').style.display = 'block';
             document.getElementById('password').style.display = 'block';
             document.getElementById('lblPassword').style.display = 'block';
+            document.getElementById('lblDailyLimit').style.display = 'none';
+            document.getElementById('dailyLimit').style.display = 'none';
+            document.getElementById('lblTransactionLimit').style.display = 'none';
+            document.getElementById('transactionLimit').style.display = 'none';
+
             document.getElementById('password').setAttribute('required');
         },
 
@@ -365,6 +370,10 @@ export default {
             document.getElementById('userPopup').style.display = 'block';
             document.getElementById('password').style.display = 'none';
             document.getElementById('lblPassword').style.display = 'none';
+            document.getElementById('lblDailyLimit').style.display = 'block';
+            document.getElementById('dailyLimit').style.display = 'block';
+            document.getElementById('lblTransactionLimit').style.display = 'block';
+            document.getElementById('transactionLimit').style.display = 'block';
             document.getElementById('password').removeAttribute('required');
 
             this.registerRequest.firstName = user.firstName;

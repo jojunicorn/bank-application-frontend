@@ -127,5 +127,5 @@ export default {
 </script>
 
 <style>
-@import '../assets/userAtm.css';
+@import '../assets/userATM.css';
 </style>

@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 import axios from 'axios'
-axios.defaults.baseURL = 'https://localhost:8080'
+axios.defaults.baseURL = 'https://bankapi-urjj.onrender.com'
 const app = createApp(App)
 
 const eventBus = reactive({})

@@ -9,8 +9,3 @@ import GetAccountsComponent from '../../components/accounts/GetAccountsComponent
         <GetAccountsComponent />
     </main>
 </template>
-
-
-<!-- http://localhost:5173/accounts -->
-
-<!-- available for EMPLOYEE -->

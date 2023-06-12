@@ -1,37 +1,25 @@
 <template>
   <div class="main">
     <h1>Welcome {{ userResponse.firstName }} {{ userResponse.lastName }}</h1>
-    <br /><br /><br /><br />
-
-    <p>
-      Here I would display the accounts where if you click on them you have more detail and the
-      options to perform transactions<br />
-      If user has no accounts yet message that no accounts have been created yet. <br />
-      Also display the rest daily limit and the general transactionlimit
-    </p>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import axiosConfig from '../axiosConfig'
+import axios from '../axiosConfig'
 
 export default {
-  created() {
-    // needs to be specified in login
-    const currentUser = this.getUser()
-  },
   mounted() {
-    const userId = this.$route.params.id
+    this.userId = localStorage.getItem('id')
+    this.getUser()
   },
   data() {
     return {
+      userId: '',
       userResponse: {
         id: '',
         firstName: '',
         lastName: '',
         email: '',
-        password: '',
         bsn: '',
         phoneNumber: '',
         birthdate: '',
@@ -47,16 +35,11 @@ export default {
   methods: {
     async getUser() {
       try {
-        console.log('clicked')
-        // Test code until login with current logged in user is implemented
-        const userId = this.$route.params.id
-        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        const response = await axios.get(`http://localhost:8080/users/${userId}`)
+        const response = await axios.get(`/users/${this.userId}`)
         const data = response.data
-
-        this.userResponse = data // Assign the response data to userResponse
-
-        // Do further processing or handle the response as needed
+        this.userResponse = data
+        localStorage.setItem('role', data.role) //eg. ROLE_EMPLOYEE
+        this.$emit('role-updated', data.role)
       } catch (error) {
         console.log(error)
       }
@@ -65,7 +48,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main {
   margin: 2%;
 }

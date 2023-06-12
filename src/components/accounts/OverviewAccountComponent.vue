@@ -4,7 +4,7 @@
         <hr style="border: solid 1px black">
 
         <ul v-if="account" class="list-group text-center">
-            <li class="list-group-item active">Iban: {{ account.iban }}</li>
+            <li class="list-group-item active">IBAN: {{ account.iban }}</li>
             <li class="list-group-item">Name: {{ account.user.firstName }} {{ account.user.lastName }}</li>
             <li class="list-group-item active">Balance: &euro; {{ account.balance }}</li>
         </ul>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="ml-3 mt-3 text-center">
-        <button class="btn btn-primary">New Transfer</button>
+        <a href='/user/transactions' class="btn btn-primary">New Transfer</a>
     </div>
 
     <p class="ml-3 mt-3 text-center">
@@ -27,11 +27,16 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from '../../axiosConfig';
 export default {
+    created() {
+        this.iban = '';
+        if (this.$eventBus.accountUpdateEvent && this.$eventBus.accountUpdateEvent.iban) {
+            this.iban = this.$eventBus.accountUpdateEvent.iban; // Set the iban from the event bus
+        }
+    },
     mounted() {
-        const iban = this.$route.params.iban;
-        this.fetchMyAccount(iban);
+        this.fetchMyAccount(this.iban);
     },
     data() {
         return {
@@ -40,11 +45,9 @@ export default {
     },
     methods: {
         async fetchMyAccount(iban) {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
-
             try {
                 const response = await axios
-                    .get(`https://localhost:8080/accounts/${iban}`, config);
+                    .get(`/accounts/${this.iban}`);
 
                 const account = response.data;
                 this.account = account;

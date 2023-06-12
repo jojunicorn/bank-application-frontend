@@ -7,12 +7,12 @@
         </ul>
         <ul v-else-if="accounts.length >= 0" class="inline-list">
             <li v-for="account in accounts" :key="account.id">
-                <div class="container limits">
+                <div class="container limits text-white">
                     <div class="row">
                         <div class="card limit">
                             <div class="card-body">
-                                <h4 class="card-title text-center"> Account IBAN: <a
-                                        :href="`/accounts/myAccount/${account.iban}`">{{ account.iban }}</a></h4>
+                                <h4 class="card-title text-center"> Account IBAN: <a @click="goToEditStatus(account.iban)"
+                                        target="_blank" class="btn btn-primary">{{ account.iban }}</a></h4>
                                 <h5 class="card-title"> Account Type: {{ account.accountType }}</h5>
                                 <h5 class="card-subtitle"> Account Balance: &euro; {{ account.balance }}</h5>
                                 <p class="card-text"> Absolute limit: &euro; {{ account.absoluteLimit }}</p>
@@ -30,11 +30,10 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../axiosConfig';
 export default {
     mounted() {
-        //replace with logged in user
-        const userId = this.$route.params.id;
+        const userId = localStorage.getItem('id');
         this.fetchAccounts(userId);
     },
     data() {
@@ -45,10 +44,8 @@ export default {
     },
     methods: {
         async fetchAccounts(userId) {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
-
             await axios
-                .get(`https://localhost:8080/accounts/myAccounts/${userId}`, config)
+                .get(`/accounts/myAccounts/${userId}`)
                 .then(response => {
                     this.accounts = response.data;
                     this.loading = false;
@@ -57,6 +54,10 @@ export default {
                     console.error(`Failed to get my accounts for user with id ${userId}: `, error);
                     this.loading = false;
                 });
+        },
+        goToEditStatus(iban) {
+            this.$eventBus.accountUpdateEvent = { iban: iban };
+            this.$router.push({ name: 'overviewAccount' });
         },
     },
 };

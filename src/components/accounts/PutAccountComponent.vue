@@ -3,7 +3,7 @@
         <h2>Update account status</h2>
         <div class="form-group">
             <label for="iban">IBAN: </label>
-            <input type="text" id="iban" class="form-control col-md-6" v-model="iban" placeholder="Enter IBAN" />
+            <input type="text" id="iban" class="form-control col-md-6" v-model="iban" />
         </div>
         <div class="form-group">
             <label for="status">Account Status: </label>
@@ -19,9 +19,15 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from '../../axiosConfig';
 
 export default {
+    created() {
+        this.iban = '';
+        if (this.$eventBus.accountUpdateEvent && this.$eventBus.accountUpdateEvent.iban) {
+            this.iban = this.$eventBus.accountUpdateEvent.iban; // Set the iban from the event bus
+        }
+    },
     data() {
         return {
             iban: '',
@@ -32,7 +38,6 @@ export default {
     },
     methods: {
         async updateAccountStatus() {
-            const config = { headers: { Authorization: `Bearer ${"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJiYW5rQGluaG9sbGFuZC5jb20iLCJhdXRoIjpbIlJPTEVfRU1QTE9ZRUUiXSwiaWF0IjoxNjg2MDg5MDg3LCJleHAiOjE2ODYxNzU0ODd9.he4QEJ4QEWr8u4QSUaNXwVh19hpyDGuXM8bG_8DkkwkxE-9c0YRyNwJyDcUdl2OyQmovLNhxbnO7Z92AHPk429Yx9_QzaII6hXKi4k367VzKqwp2HqgBLogGZ1LpeHAobGYQ9gAQdixGvaNQwvwbTQ68XljS5B2vmvsgGKp0niYSdJWolxWeHVVcanthTKzcHP8chM0gkcf-zUo1EfAF6jU2McapM6bRHqFwU6TiQEhhMNmii-MIcugohApyPZVdmWHV4Fe5cAu5Hwn_MT0x0ahVI_1zLTlcbt3rKgoJkw7chkl7c7q5BiwrVn3R1znsgKR2-SvpiZFEG3__PSAFXw"}`, }, };
             const iban = this.iban;
             const accountStatus = this.accountStatus;
 
@@ -40,21 +45,25 @@ export default {
                 accountStatus: accountStatus,
             };
 
-            await axios
-                .put(`https://localhost:8080/accounts/accountStatus/${iban}`, requestData, config)
-                .then(response => {
-                    this.successMessage = response.data;
-                    this.errorMessage = '';
-                    console.log("Status updated", response.data);
-                })
-                .catch(error => {
-                    if (error.response && error.response.data) {
-                        this.errorMessage = error.response.data;
-                    } else {
-                        console.error(`Failed to update account status: `, error);
-                    }
-                    this.successMessage = '';
-                });
+            try {
+                const response = await axios.put(`/accounts/accountStatus/${iban}`, requestData);
+                this.successMessage = response.data;
+                this.errorMessage = '';
+                console.log("Status updated", response.data);
+
+                setTimeout(() => {
+                    // Navigate to another page after 5 seconds
+                    this.$router.push('/accounts');
+                }, 1000); // Delay in milliseconds (5 seconds)
+
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    this.errorMessage = error.response.data;
+                } else {
+                    console.error(`Failed to update account status: `, error);
+                }
+                this.successMessage = '';
+            }
         },
     },
 };

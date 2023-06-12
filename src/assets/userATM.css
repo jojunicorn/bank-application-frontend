@@ -19,3 +19,6 @@
   margin-top: 3em;
   width: 93%;
 }
+.error-message{
+  color: red;
+}

@@ -28,7 +28,7 @@
                     <td>{{ account.iban }}</td>
                     <td>{{ account.user }}</td>
                     <td>{{ account.accountType }}</td>
-                    <td><a href='/user/transactions' class="btn btn-primary">Create Transaction</a></td>
+                    <td><button class="btn btn-primary" @click="saveIBAN(account.iban)">Create Transaction</button></td>
                 </tr>
             </tbody>
         </table>
@@ -67,6 +67,10 @@ export default {
           }
           this.successMessage = ''
         })
+    },
+    saveIBAN(iban) {
+      this.$eventBus.tempIban = iban;
+      this.$router.push({ name: 'userTransactions' })
     }
   }
 }

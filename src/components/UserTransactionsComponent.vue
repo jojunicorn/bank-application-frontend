@@ -1,54 +1,37 @@
 <template>
-  <div class="container">
-    <div class="radio-tile-group">
-      <div class="input-container">
-        <input id="current" class="radio-button" type="radio" name="radio" />
-        <div class="radio-tile">
-          <label for="current" class="radio-tile-label">Current</label>
-          <div class="row card-info">
-            <label class="col text-left font-weight-bold">Balance</label>
-            <div class="col text-right">
-              <label for="balance">0.00</label>
-              <label for="currency">&euro;</label>
-            </div>
-          </div>
-          <div class="row card-info">
-            <label class="col text-left font-weight-bold">Account holder</label>
-            <label class="col text-right" for="name">Alba Placeres</label>
-          </div>
-          <div class="row card-info">
-            <label class="col text-left font-weight-bold">IBAN</label>
-            <label class="col text-right" for="iban">31231657543</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="input-container">
-        <input id="savings" class="radio-button" type="radio" name="radio" />
-        <div class="radio-tile">
-          <label for="savings" class="radio-tile-label">Savings</label>
-          <div class="row card-info">
-            <label class="col text-left font-weight-bold">Balance</label>
-            <div class="col text-right">
-              <label for="balance">0.00</label>
-              <label for="currency">&euro;</label>
-            </div>
-          </div>
-          <div class="row card-info">
-            <label class="col text-left font-weight-bold">Account holder</label>
-            <label class="col text-right" for="name">Alba Placeres</label>
-          </div>
-          <div class="row card-info">
-            <label class="col text-left font-weight-bold">IBAN</label>
-            <label class="col text-right" for="iban">31231657543</label>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <section class="d-flex justify-content-center align-items-middle h-100">
+      <form @submit.prevent class="card p-3">
+        <h1>Create a transaction</h1>
+        <label>Account</label>
+        <select>
+          <option value="CURRENT">put current</option>
+          <option value="SAVING">put saviing</option>
+        </select>
+        <label>Amount <small>*required</small></label>
+        <input type="number" step="0.01" min="0" required>
+        <label>Account to</label>
+        <input type="text" v-model="targetIBAN" disabled/>
+      </form>
+  </section>
 </template>
 
-<script></script>
+<script>
+export default {
+  name: "UserTransactionsComponent",
+  data() {
+    return {
+      targetIBAN: ''
+    }
+  },
+  mounted() {
+  if (this.$eventBus.tempIban != null)
+  {
+    this.targetIBAN = this.$eventBus.tempIban;
+  }
+}
+}
+
+</script>
 
 <style>
 @import '../assets/transaction.css';

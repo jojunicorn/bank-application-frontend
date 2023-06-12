@@ -15,20 +15,19 @@
 
         <hr style="border: solid 1px black">
     </div>
-
-    <div class="ml-3 mt-3 text-center">
-        <a href='/user/transactions' class="btn btn-primary">New Transfer</a>
-    </div>
-
     <p class="ml-3 mt-3 text-center">
         Transaction History
-        <!-- add alba's part -->
+        <UserTransactionHistoryComponent></UserTransactionHistoryComponent>
     </p>
 </template>
 
 <script>
 import axios from '../../axiosConfig';
+import UserTransactionHistoryComponent from "@/components/UserTransactionHistoryComponent.vue";
 export default {
+    components: {
+      UserTransactionHistoryComponent,
+    },
     created() {
         this.iban = '';
         if (this.$eventBus.accountUpdateEvent && this.$eventBus.accountUpdateEvent.iban) {
@@ -44,7 +43,7 @@ export default {
         };
     },
     methods: {
-        async fetchMyAccount(iban) {
+        async fetchMyAccount() {
             try {
                 const response = await axios
                     .get(`/accounts/${this.iban}`);

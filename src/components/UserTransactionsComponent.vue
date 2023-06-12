@@ -92,10 +92,10 @@ export default {
         const account = this.accounts.find((acc) => acc.iban === this.selectedAccount);
 
         // Return the balance of the selected account
-        return account ? account.balance : null;
+        return account ? account.balance : 0;
       }
 
-      return null;
+      return 0;
     },
   },
 }

@@ -8,13 +8,14 @@
           {{ account.iban }} ({{account.accountType}})
         </option>
       </select>
-      <span>Balance: &euro; {{selectedAccount?.balance}}</span>
+      <span>Balance: &euro; {{selectedAccountBalance}}</span>
       <label class="my-2">Amount <small>*required</small></label>
       <input type="number" step="0.01" min="0" required />
       <label class="my-2">Account to</label>
       <input type="text" v-model="targetIBAN" disabled />
       <button class="btn btn-primary my-3">Transfer</button>
-      <div v-if="errorHappened">{{error}}</div>
+      <div v-if="errorHappened" class="alert alert-danger">{{error}}</div>
+      <div v-if="successHappened" class="alert alert-success">{{success}}</div>
     </form>
   </section>
 </template>
@@ -62,12 +63,27 @@ export default {
       }).then((response) => {
         this.success = "Transfer successful!"
         this.successHappened = true
+        // Get accounts again to update the balance
+        this.GetAccounts();
       }).catch((error) => {
         this.error = error.response.data.message
         this.errorHappened = true
       })
     }
-  }
+  },
+  computed: {
+    selectedAccountBalance() {
+      if (this.selectedAccount) {
+        // Find the selected account based on the selectedAccount value
+        const account = this.accounts.find((acc) => acc.iban === this.selectedAccount);
+
+        // Return the balance of the selected account
+        return account ? account.balance : null;
+      }
+
+      return null;
+    },
+  },
 }
 </script>
 

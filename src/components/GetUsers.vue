@@ -21,11 +21,9 @@
                     <th>Phone Number</th>
                     <th>BSN</th>
                     <th>Birthdate</th>
-                    <th>Street Name</th>
-                    <th>House Number</th>
-                    <th>Zip Code</th>
-                    <th>City</th>
-                    <th>Country</th>
+                    <th>Adress</th>
+                    <th>Daily Limit</th>
+                    <th>Transaction Limit</th>
                     <th> </th>
                 </tr>
             </thead>
@@ -38,11 +36,9 @@
                     <td>{{ user.phoneNumber }}</td>
                     <td>{{ user.bsn }}</td>
                     <td>{{ user.birthdate }}</td>
-                    <td>{{ user.streetName }}</td>
-                    <td>{{ user.houseNumber }}</td>
-                    <td>{{ user.zipCode }}</td>
-                    <td>{{ user.city }}</td>
-                    <td>{{ user.country }}</td>
+                    <pre><td>{{ user.streetName + ' ' + user.houseNumber + '\n' + user.zipCode + ' ' + user.city + '\n'  + user.country}}</td></pre>
+                    <td>{{ user.dailyLimit }}</td>
+                    <td>{{ user.transactionLimit }}</td>
                     <td>
                         <button class="btn btn-outline-info" @click="openEditPopup(user)">Edit</button>
                         <button class="btn btn-outline-danger" @click="openDeletePopup(user.id)">Delete</button><br>
@@ -128,6 +124,14 @@
               <label for="zipCode" class="form-label dark">Zip</label>
               <input type="text" class="form-control" id="zipCode" v-model="registerRequest.zipCode" required>
             </div>
+            <div class="col-md-6">
+              <label for="city" class="form-label dark">Daily Limit</label>
+              <input type="text" class="form-control" id="city" v-model="userResponse.dailyLimit" required>
+            </div>
+            <div class="col-md-6">
+              <label for="zipCode" class="form-label dark">Transaction Limit</label>
+              <input type="text" class="form-control" id="zipCode" v-model="userResponse.transactionLimit" required>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" @click="closePopup('userPopup')">Close</button>
                 <button type="submit" id="btnRegisterSave" class="btn btn-primary">Register</button>
@@ -176,7 +180,9 @@ export default {
                 houseNumber: '',
                 zipCode: '',
                 city: '',
-                country: '', 
+                country: '',
+                dailyLimit: '',
+                transactionLimit: '', 
                 role: ''
             },
             registerRequest: {
@@ -268,6 +274,8 @@ export default {
                     this.feedbackMessage = error;
                     this.openFeedbackPopup("black", "Error")
                 });
+                this.updateDailyLimit();
+                this.updateTransactionLimit();
                 
             this.temporaryIdSave = null;
             this.closePopup('userPopup');
@@ -292,6 +300,30 @@ export default {
             this.feedbackMessage = '';
             this.temporaryIdSave = null;
             this.getUsers();
+        },
+        async updateDailyLimit(){
+            console.log(this.temporaryIdSave, ' ', this.userResponse.dailyLimit);
+
+            await axios.put(`/users/${this.temporaryIdSave}/dailyLimit?dailyLimit=${this.userResponse.dailyLimit}`)
+                .then(response => {
+                    //information updated successfully
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.feedbackMessage = error;
+                    this.openFeedbackPopup("black", "Error")
+                });
+        },
+        async updateTransactionLimit(){
+            await axios.put(`/users/${this.temporaryIdSave}/transactionLimit?transactionLimit=${this.userResponse.transactionLimit}`)
+                .then(response => {
+                    //information updated successfully
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.feedbackMessage = error;
+                    this.openFeedbackPopup("black", "Error")
+                });
         },
         goToCreateAccountForUser(user){
             //eventBus.$emit('userEvent', user);
@@ -334,6 +366,7 @@ export default {
             document.getElementById('password').style.display = 'none';
             document.getElementById('lblPassword').style.display = 'none';
             document.getElementById('password').removeAttribute('required');
+
             this.registerRequest.firstName = user.firstName;
             this.registerRequest.lastName = user.lastName;
             this.registerRequest.email = user.email;
@@ -346,6 +379,9 @@ export default {
             this.registerRequest.zipCode = user.zipCode;
             this.registerRequest.city = user.city;
             this.registerRequest.country = user.country;
+
+            this.userResponse.dailyLimit = user.dailyLimit;
+            this.userResponse.transactionLimit = user.transactionLimit;
         },
 
         openDeletePopup(id){

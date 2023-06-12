@@ -1,7 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/UserLoginComponent.vue'
 import Unauthorised from '../components/UnauthorisedComponent.vue'
+import NotFound from '../components/NotFoundComponent.vue'
+
 const userId = localStorage.getItem('id')
+
+function employeeGuard(to, from, next) {
+  // Check if the user has the role of "employee"
+  const userRole = localStorage.getItem('role'); // Implement this function to get the user's role
+  
+  if (userRole === 'ROLE_EMPLOYEE') {
+    // Allow access to the route
+    next();
+  } else {
+    // Redirect to a different route or display an error message
+    next('/unauthorised');
+  }
+}
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -33,12 +50,14 @@ const router = createRouter({
     {
       path: '/users',
       name: 'getAllUsers',
-      component: () => import('../views/GetUsersView.vue')
+      component: () => import('../views/GetUsersView.vue'),
+      beforeEnter: employeeGuard
     },
     {
       path: '/accounts',
       name: 'getAccounts',
-      component: () => import('../views/accounts/GetAccountsView.vue')
+      component: () => import('../views/accounts/GetAccountsView.vue'),
+      beforeEnter: employeeGuard // Apply the guard to this route
     },
     {
       path: '/accounts/getIbanByCustomerName',
@@ -53,17 +72,20 @@ const router = createRouter({
     {
       path: '/accountsCreate',
       name: 'createAccount',
-      component: () => import('../views/accounts/PostAccountView.vue')
+      component: () => import('../views/accounts/PostAccountView.vue'),
+      beforeEnter: employeeGuard
     },
     {
       path: '/accounts/accountStatus',
       name: 'updateAccount',
-      component: () => import('../views/accounts/PutAccountView.vue')
+      component: () => import('../views/accounts/PutAccountView.vue'),
+      beforeEnter: employeeGuard
     },
     {
       path: '/accounts/absoluteLimit',
       name: 'updateAbsoluteLimit',
-      component: () => import('../views/accounts/UpdateAccountView.vue')
+      component: () => import('../views/accounts/UpdateAccountView.vue'),
+      beforeEnter: employeeGuard
     },
     {
       path: '/accounts/myAccount',
@@ -76,8 +98,13 @@ const router = createRouter({
       component: Unauthorised
     },
     {
+      path: '/notfound',
+      name: 'notFound',
+      component: NotFound
+    },
+    {
       path: '/:catchAll(.*)',
-      redirect: '/unauthorised' // Redirect any unmatched path to the Unauthorised component or view
+      redirect: '/notfound' // Redirect any unmatched path to the Unauthorised component or view
     }
   ]
 })

@@ -33,10 +33,6 @@
             <router-link :to="'/users'" class="nav-link" active-class="active" exact>User Management</router-link>
           </li>
           <li class="nav-item" v-if="role === 'ROLE_EMPLOYEE'">
-            <router-link :to="'/transactions'" class="nav-link" active-class="active" exact>Transaction
-              Management</router-link>
-          </li>
-          <li class="nav-item" v-if="role === 'ROLE_EMPLOYEE'">
             <router-link :to="'/accounts'" class="nav-link" active-class="active" exact>Accounts Management</router-link>
           </li>
 

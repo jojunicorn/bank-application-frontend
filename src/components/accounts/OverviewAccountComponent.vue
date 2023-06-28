@@ -15,19 +15,11 @@
 
         <hr style="border: solid 1px black">
     </div>
-    <p class="ml-3 mt-3 text-center">
-        Transaction History
-        <UserTransactionHistoryComponent></UserTransactionHistoryComponent>
-    </p>
 </template>
 
 <script>
 import axios from '../../axiosConfig';
-import UserTransactionHistoryComponent from "@/components/UserTransactionHistoryComponent.vue";
 export default {
-    components: {
-      UserTransactionHistoryComponent,
-    },
     created() {
         this.iban = '';
         if (this.$eventBus.accountUpdateEvent && this.$eventBus.accountUpdateEvent.iban) {
